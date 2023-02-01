@@ -1,0 +1,13 @@
+{
+    "type": "mssql",
+    "host": "localhost",
+    "port": 1433,
+    "username": "sa",
+    "password": "avash@123",
+    "database": "GuardianPortalSystemDB",
+    "synchronize": true,
+    "logging": true,
+    "extra": { 
+        "trustServerCertificate": true 
+    }
+}
