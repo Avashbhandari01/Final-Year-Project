@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+// import { sentenceCase } from 'change-case';
+import { useState, useEffect } from 'react';
 import {
   Card,
   Table,
@@ -27,18 +27,19 @@ import Label from '../components/label';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
-import USERLIST from '../_mock/user';
+// import USERLIST from '../_mock/user';
 import { Modal } from 'antd';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { FormControl } from '@mui/material';
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
+  { id: 'firstname', label: 'First Name', alignRight: false },
+  { id: 'lastname', label: 'Last Name', alignRight: false },
+  { id: 'phonenumber', label: 'Phone Number', alignRight: false },
+  { id: 'email', label: 'Email', alignRight: false },
   { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
 
@@ -66,7 +67,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.firstName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -93,8 +94,7 @@ export default function UserPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [role, setRole] = useState("")
-
-
+  const [userDatas, setUserDatas] = useState([]);
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -112,18 +112,18 @@ export default function UserPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = userDatas.map((n) => n.firstName);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, firstName) => {
+    const selectedIndex = selected.indexOf(firstName);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, firstName);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -148,9 +148,9 @@ export default function UserPage() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userDatas.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(userDatas, getComparator(order, orderBy), filterName);
 
   const isNotFound = !filteredUsers.length && !!filterName;
 
@@ -166,6 +166,7 @@ export default function UserPage() {
     e.preventDefault();
 
     console.log(email, password, role);
+
     fetch("http://localhost:5000/api/users/user-register", {
       method: "POST",
       headers: {
@@ -194,6 +195,25 @@ export default function UserPage() {
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    fetch("http://localhost:5000/api/users/user-table", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUserDatas(data.data); // access the "data" property of the response object
+        console.log(userDatas);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -221,34 +241,67 @@ export default function UserPage() {
               onSubmit={handleOk}
             ></Box>
 
-            <TextField id="outlined-basic" label="First Name" variant="outlined" onChange={(e) => setFirstname(e.target.value)} />
+            <TextField
+              id="outlined-basic"
+              label="First Name"
+              variant="outlined"
+              onChange={(e) => setFirstname(e.target.value)}
+              style={{ margin: '5px' }}
+            />
 
-            <TextField id="outlined-basic" label="Last Name" variant="outlined" onChange={(e) => setLastname(e.target.value)} />
+            <TextField
+              id="outlined-basic"
+              label="Last Name"
+              variant="outlined"
+              onChange={(e) => setLastname(e.target.value)}
+              style={{ margin: '5px' }}
+            />
 
-            <TextField id="outlined-basic" label="Phone Number" variant="outlined" onChange={(e) => setPhonenumber(e.target.value)} />
+            <TextField
+              id="outlined-basic"
+              label="Phone Number"
+              variant="outlined"
+              onChange={(e) => setPhonenumber(e.target.value)}
+              style={{ margin: '5px' }}
+            />
 
-            <TextField id="outlined-basic" label="Email" variant="outlined" onChange={(e) => setEmail(e.target.value)} />
+            <TextField
+              id="outlined-basic"
+              label="Email"
+              variant="outlined"
+              onChange={(e) => setEmail(e.target.value)}
+              style={{ margin: '5px' }}
+            />
 
-            <TextField id="outlined-basic" label="Password" variant="outlined" type="password" onChange={(e) => setPassword(e.target.value)} />
+            <TextField
+              id="outlined-basic"
+              label="Password"
+              variant="outlined"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ margin: '5px' }}
+            />
 
+            <FormControl style={{ width: '49%' }}>
+              <InputLabel id="demo-simple-select-label" style={{ margin: '5px' }}>Role</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                style={{ margin: '5px' }}
+              >
+                <MenuItem value={'parent'}>Parent</MenuItem>
+                <MenuItem value={'teacher'}>Teacher</MenuItem>
+                <MenuItem value={'student'}>Student</MenuItem>
+              </Select>
+            </FormControl>
 
-
-            <InputLabel id="demo-simple-select-label">Role</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="Role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <MenuItem value={'parent'}>Parent</MenuItem>
-              <MenuItem value={'teacher'}>Teacher</MenuItem>
-              <MenuItem value={'student'}>Student</MenuItem>
-            </Select>
           </Modal>
         </Stack>
 
-        {/* <Card>
+        <Card>
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
           <Scrollbar>
@@ -258,39 +311,39 @@ export default function UserPage() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={userDatas.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                    const selectedUser = selected.indexOf(name) !== -1;
+                    const { user_ID, firstName, lastName, phoneNumber, email, role } = row;
+                    const selectedUser = selected.indexOf(firstName) !== -1;
 
                     return (
-                      <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                      <TableRow hover key={user_ID} tabIndex={-1} role="checkbox" selected={selectedUser}>
                         <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, firstName)} />
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
+                            <Avatar alt={firstName} src={'/assets/images/avatar_default.jpg'} />
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {firstName}
                             </Typography>
                           </Stack>
                         </TableCell>
 
-                        <TableCell align="left">{company}</TableCell>
+                        <TableCell align="left">{lastName}</TableCell>
 
-                        <TableCell align="left">{role}</TableCell>
+                        <TableCell align="left">{phoneNumber}</TableCell>
 
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left">{email}</TableCell>
 
                         <TableCell align="left">
-                          <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
+                          {role}
                         </TableCell>
 
                         <TableCell align="right">
@@ -301,6 +354,7 @@ export default function UserPage() {
                       </TableRow>
                     );
                   })}
+                  
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
                       <TableCell colSpan={6} />
@@ -338,16 +392,16 @@ export default function UserPage() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={userDatas.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
-        </Card> */}
+        </Card>
       </Container>
 
-      {/* <Popover
+      <Popover
         open={Boolean(open)}
         anchorEl={open}
         onClose={handleCloseMenu}
@@ -374,7 +428,7 @@ export default function UserPage() {
           <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
           Delete
         </MenuItem>
-      </Popover> */}
+      </Popover>
     </>
   );
 }

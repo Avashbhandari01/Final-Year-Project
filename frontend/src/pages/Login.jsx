@@ -61,9 +61,9 @@ export default function SignIn() {
       .then((data) => {
         console.log(data)
         if (data.status === "ok") {
-          window.localStorage.setItem("token", data.data);
+          window.localStorage.setItem("token",  JSON.stringify(data));
           window.localStorage.setItem("loggedIn", true);
-          window.location.href = "./dashboard"
+          window.location.href = "./dashboard/app"
         }
       })
   };

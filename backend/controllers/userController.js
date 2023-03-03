@@ -89,9 +89,22 @@ var userDetails = async (req, res) => {
     }
 }
 
+var userTable = async (req, res) => {
+    
+    try {
+        User.findAll({}).then((data) => {
+            res.send({data: data})
+        })
+        
+    } catch (error) {
+        res.send(error);
+    }
+}
+
 module.exports = {
     registerUser,
     loginUser,
     userData,
-    userDetails
+    userDetails,
+    userTable
 }

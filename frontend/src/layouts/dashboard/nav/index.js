@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
@@ -39,33 +39,9 @@ export default function Nav({ openNav, onCloseNav }) {
 
   const isDesktop = useResponsive('up', 'lg');
 
-  const [userData, setUserData] = useState("");
-
-  const isLoggedIn = window.localStorage.getItem("adminloggedIn")
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      function fetchUserData() {
-        fetch("http://localhost:5000/api/admin/admin-details", {
-          method: "GET",
-          crossDomain: true,
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data, "User Data");
-            setUserData(data.data[0]);
-            // console.log(userData.username)
-          });
-      }
-
-      fetchUserData();
-    }
-  }, [isLoggedIn]);
+  // const isLoggedIn = window.localStorage.getItem("adminloggedIn")
+  const admindata = window.localStorage.getItem("token")
+  const obj = JSON.parse(admindata)
 
 useEffect(() => {
   if (openNav) {
@@ -92,7 +68,7 @@ const renderContent = (
 
           <Box sx={{ ml: 2 }}>
             <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-              {userData.username}
+            {`${obj?.data?.firstName || 'Admin'} ${obj?.data?.lastName || ' '}`}
             </Typography>
 
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>

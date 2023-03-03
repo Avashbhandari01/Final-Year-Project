@@ -29,17 +29,17 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
 
-  const [mydata, setMyData] = useState("");
+  // const [mydata, setMyData] = useState({ username: 'Default Name', email: 'default@gmail.com' });
 
   const isLoggedIn = window.localStorage.getItem("adminloggedIn")
   const admindata = window.localStorage.getItem("token")
   const obj = JSON.parse(admindata)
-  // console.log(obj.data.email)
+  // console.log(obj.data.username)
   
   useEffect(() => {
     if (isLoggedIn) {
-      setMyData(obj);
-      // console.log(mydata.data.email)
+      // setMyData(obj);
+      // console.log(obj.data.username)
     }
   }, []);
 
@@ -100,10 +100,11 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {mydata.data.username}
+            {/* {obj.data.username} */}
+            {obj?.data?.username ? obj.data.username : `${obj.data.firstName} ${obj.data.lastName}`}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {mydata.data.email}
+            {obj.data.email}
           </Typography>
         </Box>
 
