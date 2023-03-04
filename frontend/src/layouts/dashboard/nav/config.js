@@ -1,10 +1,13 @@
-// component
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import SummarizeIcon from '@mui/icons-material/Summarize';
-import LoginIcon from '@mui/icons-material/Login';
-import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import ChatIcon from '@mui/icons-material/Chat';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import FeedbackIcon from '@mui/icons-material/Feedback';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import ArticleIcon from '@mui/icons-material/Article';
 
 const navConfig = [
   {
@@ -19,7 +22,7 @@ const navConfig = [
   },
   {
     title: 'attendance',
-    path: '/dashboard/products',
+    path: '/dashboard/attendance',
     icon: <SummarizeIcon />,
   },
   {
@@ -28,14 +31,34 @@ const navConfig = [
     icon: <ChatIcon />,
   },
   {
-    title: 'login',
-    path: '/login',
-    icon: <LoginIcon />,
+    title: 'calendar',
+    path: '/dashboard/calendar',
+    icon: <CalendarMonthIcon />,
   },
   {
-    title: 'Not found',
-    path: '/404',
-    icon: <DoNotDisturbIcon />,
+    title: 'routine',
+    path: '/dashboard/routine',
+    icon: <ListAltIcon />,
+  },
+  {
+    title: 'notification',
+    path: '/dashboard/notification',
+    icon: <NotificationsIcon />,
+  },
+  {
+    title: 'assignments',
+    path: '/dashboard/assignments',
+    icon: <AssignmentIcon />,
+  },
+  {
+    title: 'fee details',
+    path: '/dashboard/feedetails',
+    icon: <ArticleIcon />,
+  },
+  {
+    title: 'feedback',
+    path: '/dashboard/feedback',
+    icon: <FeedbackIcon />,
   },
 ];
 

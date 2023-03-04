@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
-// import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 import {
   Card,
@@ -23,11 +22,9 @@ import {
   Select,
   InputLabel
 } from '@mui/material';
-import Label from '../components/label';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
-// import USERLIST from '../_mock/user';
 import { Modal } from 'antd';
 
 import Box from '@mui/material/Box';
@@ -206,7 +203,7 @@ export default function UserPage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setUserDatas(data.data); // access the "data" property of the response object
+        setUserDatas(data.data); 
         console.log(userDatas);
       })
       .catch((error) => {
@@ -217,7 +214,7 @@ export default function UserPage() {
   return (
     <>
       <Helmet>
-        <title> User | Minimal UI </title>
+        <title> User | Guardian Portal </title>
       </Helmet>
 
       <Container>

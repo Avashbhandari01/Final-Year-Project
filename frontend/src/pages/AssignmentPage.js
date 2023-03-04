@@ -1,19 +1,19 @@
 import { Helmet } from 'react-helmet-async';
 import { Container, Typography } from '@mui/material';
 
-export default function ProductsPage() {
+export default function AssignmentPage() {
 
   return (
     <>
       <Helmet>
-        <title> Dashboard: Chat | Minimal UI </title>
+        <title> Assignment | Guardian Portal </title>
       </Helmet>
 
       <Container>
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Chat
+          Assignment
         </Typography>
-        <h1>This is a chat page.</h1>
+        <h1>This is a assignments page.</h1>
       </Container>
     </>
   );

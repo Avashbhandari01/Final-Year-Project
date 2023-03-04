@@ -1,18 +1,19 @@
 import { Helmet } from 'react-helmet-async';
 import { Container, Typography } from '@mui/material';
 
-export default function DashboardAppPage() {
+export default function FeeDetailsPage() {
 
   return (
     <>
       <Helmet>
-        <title> Dashboard | Guardian Portal  </title>
+        <title> Fee Details | Guardian Portal </title>
       </Helmet>
 
-      <Container maxWidth="xl">
+      <Container>
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+          Fee Details
         </Typography>
+        <h1>This is a fee details.</h1>
       </Container>
     </>
   );

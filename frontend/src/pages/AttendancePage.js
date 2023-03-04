@@ -2,11 +2,11 @@ import { Helmet } from 'react-helmet-async';
 import { Button, Container, Stack, Typography } from '@mui/material';
 import Iconify from '../components/iconify'
 
-export default function BlogPage() {
+export default function AttendancePage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: Blog | Minimal UI </title>
+        <title> Attendance | Guardian Portal </title>
       </Helmet>
 
       <Container>
@@ -14,9 +14,6 @@ export default function BlogPage() {
           <Typography variant="h4" gutterBottom>
             Attendance
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New Post
-          </Button>
         </Stack>
         <h1>This is a attendance page.</h1>
       </Container>

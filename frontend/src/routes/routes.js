@@ -1,18 +1,22 @@
 import { useRoutes, Navigate } from 'react-router-dom';
 
-// Layouts
 import DashboardLayout from '../layouts/dashboard';
 import SimpleLayout from '../layouts/simple';
 
-// Pages
-import BlogPage from '../pages/BlogPage';
+import AttendancePage from '../pages/AttendancePage';
 import UserPage from '../pages/UserPage';
 import Page404 from '../pages/Page404';
-import ProductsPage from '../pages/ProductsPage';
+import ChatPage from '../pages/ChatPage';
 import DashboardAppPage from '../pages/DashboardAppPage';
 import LandingPage from '../pages/LandingPage';
 import Login from '../pages/Login';
 import AdminLogin from '../pages/AdminLogin';
+import CalendarPage from '../pages/Calendar';
+import RoutinePage from '../pages/RoutinePage';
+import NotificationPage from '../pages/NotificationPage';
+import AssignmentPage from '../pages/AssignmentPage';
+import FeeDetailsPage from '../pages/FeeDetails';
+import FeedbackPage from '../pages/Feedback';
 // import PrivateRoutes from './protectedRoute';
 
 export default function Router() {
@@ -38,8 +42,14 @@ export default function Router() {
                 { element: <Navigate to="/dashboard/app"/> },
                 { path: 'app', element: <DashboardAppPage /> },
                 { path: 'user', element: <UserPage /> },
-                { path: 'chat', element: <ProductsPage /> },
-                { path: 'blog', element: <BlogPage /> },
+                { path: 'chat', element: <ChatPage /> },
+                { path: 'attendance', element: <AttendancePage /> },
+                { path: 'calendar', element: <CalendarPage /> },
+                { path: 'routine', element: <RoutinePage /> },
+                { path: 'notification', element: <NotificationPage /> },
+                { path: 'assignments', element: <AssignmentPage /> },
+                { path: 'feedetails', element: <FeeDetailsPage /> },
+                { path: 'feedback', element: <FeedbackPage /> },
             ],
         },
         {

@@ -1,0 +1,42 @@
+Day,Time,Class Type,Module Code,Module Title,Lecturer,Group,Block,Room
+SUN,07:00 AM - 09:00 AM,Workshop,CC6001NI,Advanced Database Systems Development,Mr. Lekhnath Katuwal,C1,London,SR02 - Trafalgar Square
+SUN,07:00 AM - 09:00 AM,Workshop,CS6004NI,Application Development,Mr. Abhishek Humagain,C4,London,SR03 - Piccadilly Circus
+SUN,07:00 AM - 09:00 AM,Workshop,CC6001NI,Advanced Database Systems Development,Mr. Biwash Adhikari,C9,Nepal,TR02 - Patan
+SUN,07:00 AM - 09:00 AM,Workshop,CS6004NI,Application Development,Mr. Samyush Maharjan,C12,Skill,Lab 11 - Dorjee Khando Lama
+SUN,09:00 AM - 10:00 AM,Lecture,FC6W51NI,Work Related Learning II,Mr. Umesh Nepal,C13+C14+C15,London,LT03 - Westminster Palace
+SUN,09:00 AM - 11:00 AM,Workshop,CC6001NI,Advanced Database Systems Development,Mr. Lekhnath Katuwal,C2,London,SR02 - Trafalgar Square
+SUN,09:00 AM - 11:00 AM,Workshop,CS6004NI,Application Development,Mr. Abhishek Humagain,C3,London,SR03 - Piccadilly Circus
+SUN,09:00 AM - 11:00 AM,Workshop,CC6001NI,Advanced Database Systems Development,Mr. Biwash Adhikari,C10,Nepal,TR02 - Patan
+SUN,09:00 AM - 11:00 AM,Workshop,CS6004NI,Application Development,Mr. Samyush Maharjan,C11,Skill,Lab 11 - Dorjee Khando Lama
+MON,07:00 AM - 08:00 AM,Lecture,FC6W51NI,Work Related Learning II,Mr. Umesh Nepal,C7+C8,London,LT03 - Westminster Palace
+MON,07:00 AM - 09:00 AM,Workshop,CC6001NI,Advanced Database Systems Development,Mr. Lekhnath Katuwal,C3 ,London,SR02 - Trafalgar Square
+MON,07:00 AM - 09:00 AM,Workshop,CS6004NI,Application Development,Mr. Abhishek Humagain,C6 ,London,SR03 - Piccadilly Circus
+MON,07:00 AM - 09:00 AM,Workshop,CC6001NI,Advanced Database Systems Development,Mr. Biwash Adhikari ,C11 ,Nepal,TR02 - Patan
+MON,07:00 AM - 09:00 AM,Workshop,CS6004NI,Application Development,Mr. Samyush Maharjan,C14 ,Skill,Lab 10 - Pranjal Deep Kanel
+MON,08:00 AM - 09:00 AM,Lecture,FC6W51NI,Work Related Learning II,Mr. Umesh Nepal,C9+C10 ,London,LT03 - Westminster Palace
+MON,09:00 AM - 11:00 AM,Workshop,CC6001NI,Advanced Database Systems Development,Mr. Lekhnath Katuwal,C4 ,London,SR02 - Trafalgar Square
+MON,09:00 AM - 11:00 AM,Workshop,CS6004NI,Application Development,Mr. Abhishek Humagain,C5 ,London,SR03 - Piccadilly Circus
+MON,09:00 AM - 11:00 AM,Workshop,CC6001NI,Advanced Database Systems Development,Mr. Biwash Adhikari ,C12,Nepal,TR02 - Patan
+MON,09:00 AM - 11:00 AM,Workshop,CS6004NI,Application Development,Mr. Samyush Maharjan,C13,Skill,Lab 10 - Pranjal Deep Kanel
+TUE,07:00 AM - 08:00 AM,Lecture,FC6W51NI,Work Related Learning II,Mr. Pratik Man Singh Pradhan,C1+C2,London ,LT03 - Westminster Palace
+TUE,07:00 AM - 09:00 AM,Workshop,CC6001NI,Advanced Database Systems Development,Mr. Lekhnath Katuwal ,C5,London ,SR02 - Trafalgar Square
+TUE,07:00 AM - 09:00 AM,Workshop,CS6004NI,Application Development,Mr. Abhishek Humagain ,C8,London ,SR03 - Piccadilly Circus
+TUE,07:00 AM - 09:00 AM,Workshop,CC6001NI,Advanced Database Systems Development,Mr. Biwash Adhikari ,C13,Nepal ,TR02 - Patan
+TUE,08:00 AM - 09:00 AM,Lecture,FC6W51NI,Work Related Learning II,Mr. Pratik Man Singh Pradhan ,C3+C4,London ,LT03 - Westminster Palace
+TUE,09:00 AM - 11:00 AM,Workshop,CC6001NI,Advanced Database Systems Development,Mr. Lekhnath Katuwal ,C6,London ,SR02 - Trafalgar Square
+TUE,09:00 AM - 11:00 AM,Workshop,CS6004NI,Application Development,Mr. Abhishek Humagain,C7,London ,SR03 - Piccadilly Circus
+TUE,09:00 AM - 11:00 AM,Workshop,CC6001NI,Advanced Database Systems Development,Mr. Biwash Adhikari,C14 ,Nepal ,TR02 - Patan
+TUE,09:00 AM - 11:00 AM,Workshop,CS6004NI,Application Development,Mr. Samyush Maharjan,C15,Skill ,Lab 08 - Vijay Pathak
+WED,07:00 AM - 08:00 AM,Lecture ,FC6W51NI ,Work Related Learning II,Mr. Pratik Man Singh Pradhan,C5+C6,London ,LT03 - Westminster Palace
+WED,07:00 AM - 09:00 AM,Workshop ,CC6001NI ,Advanced Database Systems Development,Mr. Lekhnath Katuwal,C7,London ,SR02 - Trafalgar Square
+WED,07:00 AM - 09:00 AM,Workshop ,CS6004NI ,Application Development,Mr. Abhishek Humagain ,C2,London ,SR03 - Piccadilly Circus
+WED,07:00 AM - 09:00 AM,Workshop ,CC6001NI ,Advanced Database Systems Development,Mr. Biwash Adhikari ,C15,Nepal ,TR02 - Patan
+WED,07:00 AM - 09:00 AM,Workshop ,CS6004NI ,Application Development ,Mr. Samyush Maharjan,C10,Skill ,Lab 08 - Vijay Pathak
+WED,08:00 AM - 09:00 AM,Lecture ,FC6W51NI ,Work Related Learning II,Mr. Umesh Nepal,C11+C12,London,LT03 - Westminster Palace
+WED,09:00 AM - 11:00 AM,Workshop ,CC6001NI ,Advanced Database Systems Development,Mr. Lekhnath Katuwal,C8 ,London,SR02 - Trafalgar Square
+WED,09:00 AM - 11:00 AM,Workshop ,CS6004NI ,Application Development,Mr. Abhishek Humagain,C1,London,SR03 - Piccadilly Circus
+WED,09:00 AM - 11:00 AM,Workshop ,CS6004NI ,Application Development ,Mr. Samyush Maharjan,C9 ,Skill ,Lab 08 - Vijay Pathak
+THU,07:00 AM - 08:30 AM,Lecture ,CC6001NI ,Advanced Database Systems Development,Mr. Rohit Panday,C1+C2+C3+C4+C5+C6+C7+C8+C9+C10,Kumari ,Hall - 01
+THU,08:30 AM - 10:00 AM ,Lecture ,CS6004NI ,Application Development,Mr. Himalay Sunuwar,C11+C12+C13+C14+C15,Kumari ,Hall - 02
+FRI,07:00 AM - 08:30 AM,Lecture ,CC6001NI ,Advanced Database Systems Development,Mr. Rohit Panday ,C11+C12+C13+C14+C15,Kumari ,Hall - 02
+FRI,08:30 AM - 10:00 AM,Lecture ,CS6004NI ,Application Development ,Mr. Himalay Sunuwar,C1+C2+C3+C4+C5+C6+C7+C8+C9+C10,Kumari ,Hall - 01
