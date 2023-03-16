@@ -12,7 +12,8 @@ import LandingPage from '../pages/LandingPage';
 import Login from '../pages/Login';
 import AdminLogin from '../pages/AdminLogin';
 import CalendarPage from '../pages/Calendar';
-import RoutinePage from '../pages/RoutinePage';
+// import RoutinePage from '../pages/RoutinePage';
+import ExcelRoutinePage from '../pages/ExcelRoutinePage';
 import NotificationPage from '../pages/NotificationPage';
 import AssignmentPage from '../pages/AssignmentPage';
 import FeeDetailsPage from '../pages/FeeDetails';
@@ -45,7 +46,7 @@ export default function Router() {
                 { path: 'chat', element: <ChatPage /> },
                 { path: 'attendance', element: <AttendancePage /> },
                 { path: 'calendar', element: <CalendarPage /> },
-                { path: 'routine', element: <RoutinePage /> },
+                { path: 'routine', element: <ExcelRoutinePage /> },
                 { path: 'notification', element: <NotificationPage /> },
                 { path: 'assignments', element: <AssignmentPage /> },
                 { path: 'feedetails', element: <FeeDetailsPage /> },

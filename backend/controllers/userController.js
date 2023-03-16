@@ -51,7 +51,6 @@ var loginUser = async (req, res) => {
         }
     }
     res.json({ status: "error", error: "Invalid Password!" })
-
 }
 
 var userData = async (req, res) => {
@@ -90,7 +89,6 @@ var userDetails = async (req, res) => {
 }
 
 var userTable = async (req, res) => {
-    
     try {
         User.findAll({}).then((data) => {
             res.send({data: data})
