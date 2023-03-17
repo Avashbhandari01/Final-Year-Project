@@ -17,17 +17,17 @@ import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 function Copyright(props) {
-    return (
-      <Typography variant="body2" color="text.secondary" align="center" {...props}>
-        {'Copyright © '}
-        <Link color="inherit" href="/">
-          Guardian Portal System
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="/">
+        Guardian Portal System
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 const theme = createTheme();
 
@@ -36,6 +36,15 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+
+  const handleRoleChange = (e) => {
+    const value = e.target.value;
+    if (value === undefined) {
+      setRole('');
+    } else {
+      setRole(value);
+    }
+  };
 
   const myStytle = {
     marginTop: '15px',
@@ -61,7 +70,7 @@ export default function SignIn() {
       .then((data) => {
         console.log(data)
         if (data.status === "ok") {
-          window.localStorage.setItem("token",  JSON.stringify(data));
+          window.localStorage.setItem("token", JSON.stringify(data));
           window.localStorage.setItem("loggedIn", true);
           window.location.href = "./dashboard/app"
         }
@@ -115,11 +124,13 @@ export default function SignIn() {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Age"
-                onChange={(e) => setRole(e.target.value)}
+                value={role || ''} // check for undefined before setting value
+                onChange={handleRoleChange} // use handleRoleChange to set value
               >
-                <MenuItem value={'parent'}>Parent</MenuItem>
-                <MenuItem value={'teacher'}>Teacher</MenuItem>
-                <MenuItem value={'student'}>Student</MenuItem>
+                <MenuItem value={''}>-- Select Role --</MenuItem>
+                <MenuItem value={'Parent'}>Parent</MenuItem>
+                <MenuItem value={'Teacher'}>Teacher</MenuItem>
+                <MenuItem value={'Student'}>Student</MenuItem>
               </Select>
             </FormControl>
             <FormControlLabel
@@ -144,7 +155,7 @@ export default function SignIn() {
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
-        <Button to="/" size="large" variant="contained" component={RouterLink} style={{marginLeft: '7.6vw'}}>
+        <Button to="/" size="large" variant="contained" component={RouterLink} style={{ marginLeft: '7.6vw' }}>
           Go to Home
         </Button>
       </Container>

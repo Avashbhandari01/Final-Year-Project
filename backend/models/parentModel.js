@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('User', {
+    const Parent = sequelize.define('Parent', {
         // Model attributes are defined here
-        user_ID: {
+        parent_ID: {
             type: DataTypes.INTEGER,
             allowNull: false,
             autoIncrement: true,
@@ -15,11 +15,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        phoneNumber: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-        },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -32,13 +27,21 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        role: {
+        address: {
             type: DataTypes.STRING,
             allowNull: false
-        }
+        },
+        contact: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        relation: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
     }, {
         // Other model options go here
-        tableName: 'tbl_Users'
+        tableName: 'tbl_Parents'
     });
-    return User;
+    return Parent;
 }

@@ -54,7 +54,7 @@ export default function AccountPopover() {
   const handleLogout = () => {
     setOpen(null);
     window.localStorage.clear();
-    window.location.href = "/admin-login"
+    window.location.href = "/"
   }
 
   return (

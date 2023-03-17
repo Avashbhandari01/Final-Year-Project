@@ -4,8 +4,8 @@ const { registerUser, loginUser, userData, userDetails, userTable } = require('.
 
 router.post('/user-register', registerUser)
 router.post('/user-login', loginUser)
-router.post('/userData', userData)
-router.get('/user-details', userDetails)
-router.get('/user-table', userTable)
+// router.post('/userData', userData)
+// router.get('/user-details', userDetails)
+// router.get('/user-table', userTable)
 
 module.exports = router
