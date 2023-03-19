@@ -1,5 +1,5 @@
 var db = require('../dbconfig/dbConfig')
-var User = db.user
+// var User = db.user
 var Student = db.student
 var Parent = db.parent
 const bcrypt = require('bcryptjs')
@@ -158,9 +158,9 @@ var loginUser = async (req, res) => {
 
 // var userTable = async (req, res) => {
 //     try {
-//         User.findAll({}).then((data) => {
-//             res.send({ data: data })
-//         })
+        // User.findAll({}).then((data) => {
+        //     res.send({ data: data })
+        // })
 
 //     } catch (error) {
 //         res.send(error);

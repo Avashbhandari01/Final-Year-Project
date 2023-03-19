@@ -17,14 +17,18 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// db.user = require('../models/userModel')(sequelize, DataTypes)
 db.admin = require('../models/adminModel')(sequelize, DataTypes)
 db.student = require('../models/studentModel')(sequelize, DataTypes)
 db.parent = require('../models/parentModel')(sequelize, DataTypes)
+db.fee = require('../models/feeModel')(sequelize, DataTypes)
 
 // One to Many relationship between parent and student
 db.parent.hasMany(db.student)
 db.student.belongsTo(db.parent)
+
+// One to Many relationship between student and fee
+db.student.hasMany(db.fee)
+db.fee.belongsTo(db.student)
 
 db.sequelize.sync({ force: false });
 
