@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Container, Typography, Card, Select, FormControl, MenuItem, InputLabel } from '@mui/material';
+import * as XLSX from 'xlsx';
+import { FeeData } from '../components/excelData/FeeData'
 
 export default function FeeDetailsPage() {
 
@@ -20,6 +22,20 @@ export default function FeeDetailsPage() {
   const [year, setYear] = useState(null);
   const [month, setMonth] = useState(null);
   const [feeData, setFeeData] = useState([]);
+  const [excelFile, setExcelFile] = useState([]);
+
+  // useEffect(() => {
+  //   if (excelFile !== null) {
+  //     let reader = new FileReader();
+  //     reader.readAsArrayBuffer(excelFile);
+  //     const workbook = XLSX.read(excelFile, { type: 'buffer' });
+  //     const worksheetName = workbook.SheetNames[0];
+  //     const worksheet = workbook.Sheets[worksheetName];
+  //     const data = XLSX.utils.sheet_to_json(worksheet);
+  //     // setExcelFile(data);
+  //     // console.log(excelFile)
+  //   }
+  // }, [excelFile]);
 
   const handleYearChange = (e) => {
     const value = e.target.value;
@@ -60,6 +76,7 @@ export default function FeeDetailsPage() {
         console.log(data.data);
         if (Array.isArray(data.data)) {
           setFeeData(data.data);
+          //setExcelFile(data.data.fileName);
         } else {
           setFeeData([]);
         }
@@ -68,7 +85,7 @@ export default function FeeDetailsPage() {
       .catch((error) => {
         console.log(error);
       });
-  }, [handleMonthChange]);
+  }, [month, year]);
 
   return (
     <>
@@ -111,34 +128,59 @@ export default function FeeDetailsPage() {
               <MenuItem value={'March'}>March</MenuItem>
             </Select>
           </FormControl>
-          <table>
-            <thead>
-              <tr>
-                <th>Fee ID</th>
-                <th>Month</th>
-                <th>Year</th>
-                <th>File Name</th>
-              </tr>
-            </thead>
-            <tbody>
-              {feeData && feeData.length ? (
-                <>
-                  {feeData.map((fee) => (
-                    <tr key={fee.fee_ID}> 
-                      <td>{fee.fee_ID}</td>
-                      <td>{fee.month}</td>
-                      <td>{fee.year}</td>
-                      <td>{fee.fileName}</td>
-                    </tr>
-                  ))}
-                </>
-              ) : (
+          <Card style={{ padding: '20px', marginTop: '30px' }}>
+            <table>
+              <thead>
                 <tr>
-                  <td>No Data</td>
+                  <th>Fee ID</th>
+                  <th>Month</th>
+                  <th>Year</th>
+                  <th>File Name</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {feeData && feeData.length ? (
+                  <>
+                    {feeData.map((fee) => (
+                      <tr key={fee.fee_ID}>
+                        <td>{fee.fee_ID}</td>
+                        <td>{fee.month}</td>
+                        <td>{fee.year}</td>
+                        <td>{fee.fileName}</td>
+                      </tr>
+                    ))}
+                  </>
+                ) : (
+                  <tr>
+                    <td>No Data</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </Card>
+          <Card style={{ padding: '20px', marginTop: '30px' }}>
+            {excelFile === null && <>No File Selected!</>}
+            {excelFile !== null && (
+              <div className="table-responsive">
+                <table className="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope='col'>Student ID</th>
+                      <th scope='col'>First Name</th>
+                      <th scope='col'>Last Name</th>
+                      <th scope='col'>Email</th>
+                      <th scope='col'>Month</th>
+                      <th scope='col'>Year</th>
+                      <th scope='col'>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <FeeData excelFile={excelFile} />
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </Card>
         </Card>
 
       </Container>
