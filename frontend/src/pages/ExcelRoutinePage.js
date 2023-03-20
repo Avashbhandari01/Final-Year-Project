@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Button, Container, Stack, Typography } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 import { Data } from '../components/excelData/Data';
 import * as XLSX from 'xlsx'
+
+const Routine_FILE_URL = 'http://localhost:3000/Routine/ExcelRoutine.xlsx'
 
 export default function ExcelRoutinePage() {
 
@@ -61,6 +63,16 @@ export default function ExcelRoutinePage() {
         }
     }
 
+    const downloadFileAtURL = (url) => {
+        const fileName = url.split('/').pop()
+        const aTag = document.createElement('a')
+        aTag.href = url
+        aTag.setAttribute('download', fileName)
+        document.body.appendChild(aTag)
+        aTag.click()
+        aTag.remove()
+    }
+
     return (
         <>
             <Helmet>
@@ -72,6 +84,7 @@ export default function ExcelRoutinePage() {
                     <Typography variant="h4" gutterBottom>
                         Routine
                     </Typography>
+                    <button onClick={() => { downloadFileAtURL(Routine_FILE_URL) }} className="btn btn-success" style={{ marginTop: 15 + 'px' }}>Download Routine</button>
                 </Stack>
                 <div className="container">
 

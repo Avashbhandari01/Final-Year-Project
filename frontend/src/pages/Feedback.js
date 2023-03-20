@@ -12,6 +12,20 @@ export default function FeedbackPage() {
   const sendEmail = (e) => {
     e.preventDefault();
 
+    // Check if the textfields have values
+    const formInputs = form.current.querySelectorAll('input, textarea');
+    let isValid = true;
+    formInputs.forEach((input) => {
+      if (input.value.trim() === '') {
+        // input.style.border = '1px solid red'; // Add a red border to the input
+        isValid = false;
+      } else {
+        // input.style.border = '1px solid #ced4da'; // Reset the input border
+      }
+    });
+
+    // Submit the form if the validation passes
+    if (isValid) {
     emailjs
       .sendForm(
         "service_ftzx74l",
@@ -32,6 +46,9 @@ export default function FeedbackPage() {
           toast.error("Error sending email!");
         }
       );
+    } else {
+      toast.error("Please fill out all the fields!");
+    }
   };
 
   return (
@@ -45,7 +62,7 @@ export default function FeedbackPage() {
           Feedback
         </Typography>
         <Card style={{ padding: '20px', marginTop: '30px' }}>
-          <h2>Get in touch with us.</h2>
+          <h3>Get in touch with us.</h3>
           <form ref={form}>
             <TextField margin="normal" fullWidth label="Full Name" name="user_name" />
             <TextField margin="normal" fullWidth label="Email" name="user_email" />
