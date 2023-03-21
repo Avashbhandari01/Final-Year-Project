@@ -22,6 +22,7 @@ db.student = require('../models/studentModel')(sequelize, DataTypes)
 db.parent = require('../models/parentModel')(sequelize, DataTypes)
 db.fee = require('../models/feeModel')(sequelize, DataTypes)
 db.attendance = require('../models/attendanceModel')(sequelize, DataTypes)
+db.assignment = require('../models/assignmentModel')(sequelize, DataTypes)
 
 // One to Many relationship between parent and student
 db.parent.hasMany(db.student)

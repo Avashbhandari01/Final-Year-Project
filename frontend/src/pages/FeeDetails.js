@@ -61,7 +61,6 @@ export default function FeeDetailsPage() {
         if (Array.isArray(data.data)) {
           setFeeData(data.data);
           console.log(feeData)
-          //setExcelFile(data.data.fileName);
         } else {
           setFeeData([]);
         }
@@ -144,7 +143,7 @@ export default function FeeDetailsPage() {
                         <td>{fee.studentDetails.contact}</td>
                         <td>{fee.month}</td>
                         <td>{fee.year}</td>
-                        <td>{fee.total}</td>
+                        <td>Rs {fee.total}</td>
                       </tr>
                     ))}
                   </>
