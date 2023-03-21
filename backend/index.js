@@ -19,7 +19,8 @@ app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/admin', require('./routes/adminRoutes'))
 app.use('/api/parent', require('./routes/parentRoutes'))
 app.use('/api/student', require('./routes/studentRoutes'))
-app.use('/api/fee', require('./routes/feeRoutes')) 
+app.use('/api/fee', require('./routes/feeRoutes'))
+app.use('/api/attendance', require('./routes/attendanceRoutes')) 
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}`)
