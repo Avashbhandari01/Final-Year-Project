@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Container, Typography, Button, Stack, Card, TextField, Box } from '@mui/material';
 import Iconify from '../components/iconify/Iconify';
@@ -6,19 +6,24 @@ import { Modal } from 'antd';
 
 export default function AssignmentPage() {
 
+  const form = useRef();
+
   const [assignments, setAssignments] = useState([]);
-  const [open, setOpen] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [deadline, setDeadline] = useState("")
 
-  const handleOpenMenu = (event) => {
-    setOpen(event.currentTarget);
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
   };
 
-  const handleCloseMenu = () => {
-    setOpen(null);
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const handleDeadlineChange = (event) => {
+    setDeadline(event.target.value);
   };
 
   const showModal = () => {
@@ -51,8 +56,7 @@ export default function AssignmentPage() {
     }).then((res) => res.json())
       .then((data) => {
         console.log(data, "Assignment Created!");
-        // window.location.reload()
-
+        form.current.reset();
       });
 
   };
@@ -74,7 +78,7 @@ export default function AssignmentPage() {
       .catch((error) => {
         console.log(error);
       });
-  }, [handleOk]);
+  }, [assignments]);
 
   return (
     <>
@@ -92,7 +96,7 @@ export default function AssignmentPage() {
           </Button>
 
           <Modal title="New Assignment" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-
+            <form ref={form}>
             <Box
               component="form"
               sx={{
@@ -107,7 +111,7 @@ export default function AssignmentPage() {
               id="outlined-basic"
               label="Assignment Title"
               variant="outlined"
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={handleTitleChange}
               style={{ margin: '5px' }}
             />
 
@@ -115,7 +119,7 @@ export default function AssignmentPage() {
               id="outlined-basic"
               label="Description"
               variant="outlined"
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={handleDescriptionChange}
               style={{ margin: '5px' }}
             />
 
@@ -123,10 +127,10 @@ export default function AssignmentPage() {
               id="outlined-basic"
               label="Deadline"
               variant="outlined"
-              onChange={(e) => setDeadline(e.target.value)}
+              onChange={handleDeadlineChange}
               style={{ margin: '5px' }}
             />
-
+            </form>
 
           </Modal>
         </Stack>
@@ -149,8 +153,20 @@ export default function AssignmentPage() {
                       <td>{assignment.assignmentDescription}</td>
                       <td>{assignment.submissionDate}</td>
                       <td>
-                        <Button variant="contained" style={{ marginRight: '5px' }}>Edit</Button>
-                        <Button variant="contained" color="secondary" style={{ backgroundColor: 'red' }}>Delete</Button>
+                        <Button variant="contained" color="secondary" style={{ backgroundColor: 'red' }} onClick={() => {
+                          fetch(`http://localhost:5000/api/assignment/delete-assignment/${assignment.assignment_ID}`, {
+                            method: "DELETE",
+                            headers: {
+                              "Content-Type": "application/json",
+                              Accept: "application/json",
+                              "Access-Control-Allow-Origin": "*",
+                            },
+                          })
+                            .then((res) => res.json())
+                            .then((data) => {
+                              console.log(data, "Assignment Deleted!");
+                            });
+                        }}>Delete</Button>
                       </td>
                     </tr>
                   ))}
