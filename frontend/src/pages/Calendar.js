@@ -21,28 +21,6 @@ const locales = {
     locales
   })
 
-// const events = [
-//   {
-//     title: "Big Meeting",
-//     allDay: true,
-//     start: new Date(2023, 2, 20),
-//     end: new Date(2023, 2, 20)
-//   },
-//   {
-//     title: "Vacation",
-//     allDay: true,
-//     start: new Date(2023, 2, 20),
-//     end: new Date(2023, 2, 20)
-//   },
-//   {
-//     title: "Conference",
-//     allDay: true,
-//     start: new Date(2023, 2, 20),
-//     end: new Date(2023, 2, 20)
-//   },
-
-// ]
-
 const CalendarPage = () => {
 
     return (

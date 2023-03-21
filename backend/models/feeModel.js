@@ -15,14 +15,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        fileName: {
+        total: {
             type: DataTypes.STRING,
             allowNull: false,
         },
         student_Id: DataTypes.INTEGER
     }, {
         // Other model options go here
-        tableName: 'tbl_FeeDetails'
+        tableName: 'tbl_Fee'
     });
     return Fee;
 }

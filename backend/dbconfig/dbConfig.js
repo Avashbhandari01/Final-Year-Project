@@ -27,8 +27,8 @@ db.parent.hasMany(db.student)
 db.student.belongsTo(db.parent)
 
 // One to Many relationship between student and fee
-db.student.hasMany(db.fee)
-db.fee.belongsTo(db.student)
+db.student.hasMany(db.fee, {foreignKey: 'student_Id', as: 'studentDetails'});
+db.fee.belongsTo(db.student, {foreignKey: 'student_Id', as: 'studentDetails'});
 
 db.sequelize.sync({ force: false });
 

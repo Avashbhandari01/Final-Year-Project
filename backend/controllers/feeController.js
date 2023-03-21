@@ -1,12 +1,13 @@
 var db = require('../dbconfig/dbConfig')
 var Fee = db.fee
+var Student = db.student
 
 var insertFee = async (req, res) => {
     try {
         await Fee.create({
             month: 'March',
             year: '2023',
-            fileName: "C:/Users/DELL/Desktop/Guardian Portal System/Import Fee Details/HarishMarch.csv",
+            total: '132000',
             student_Id: 1
         })
         res.send({ status: "ok" })
@@ -15,28 +16,29 @@ var insertFee = async (req, res) => {
     }
 }
 
-var getFee = async (req, res) => {
+const getFee = async (req, res) => {
     try {
         const { student_Id, year, month } = req.body;
-        if (year) {
-            if (month) {
-                Fee.findAll({ where: { student_Id, year, month } }).then((data) => {
-                    res.send({ data: data })
-                })
-            } else {
-                Fee.findAll({ where: { student_Id, year } }).then((data) => {
-                    res.send({ data: data })
-                })
-            }
+        if (year && month) {
+            const data = await Fee.findAll({
+                attributes: ['fee_ID', 'month', 'year', 'total'],
+                include: [{
+                    model: Student,
+                    as: 'studentDetails',
+                    attributes: ['firstName', 'lastName', 'email', 'contact']
+                }],
+                where: { student_Id, year, month }
+            });
+            res.status(200).json({ data });
+        } else if (year && !month) {
+            res.status(400).send("Please select the month!");
         } else {
-            Fee.findAll({ where: { student_Id } }).then((data) => {
-                res.send({ data: data })
-            })
+            res.status(400).send("Please select the year!");
         }
     } catch (error) {
-        res.send(error)
+        res.status(500).send(error);
     }
-}
+};
 
 module.exports = {
     insertFee,

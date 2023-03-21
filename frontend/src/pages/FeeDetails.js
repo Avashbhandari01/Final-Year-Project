@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Container, Typography, Card, Select, FormControl, MenuItem, InputLabel } from '@mui/material';
-import * as XLSX from 'xlsx';
-import { FeeData } from '../components/excelData/FeeData'
 
 export default function FeeDetailsPage() {
+
+  const [year, setYear] = useState(null);
+  const [month, setMonth] = useState(null);
+  const [feeData, setFeeData] = useState([]);
 
   const yearStyle = {
     marginTop: '15px',
@@ -18,24 +20,6 @@ export default function FeeDetailsPage() {
     marginBottom: '5px',
     width: '40%'
   }
-
-  const [year, setYear] = useState(null);
-  const [month, setMonth] = useState(null);
-  const [feeData, setFeeData] = useState([]);
-  const [excelFile, setExcelFile] = useState([]);
-
-  // useEffect(() => {
-  //   if (excelFile !== null) {
-  //     let reader = new FileReader();
-  //     reader.readAsArrayBuffer(excelFile);
-  //     const workbook = XLSX.read(excelFile, { type: 'buffer' });
-  //     const worksheetName = workbook.SheetNames[0];
-  //     const worksheet = workbook.Sheets[worksheetName];
-  //     const data = XLSX.utils.sheet_to_json(worksheet);
-  //     // setExcelFile(data);
-  //     // console.log(excelFile)
-  //   }
-  // }, [excelFile]);
 
   const handleYearChange = (e) => {
     const value = e.target.value;
@@ -76,6 +60,7 @@ export default function FeeDetailsPage() {
         console.log(data.data);
         if (Array.isArray(data.data)) {
           setFeeData(data.data);
+          console.log(feeData)
           //setExcelFile(data.data.fileName);
         } else {
           setFeeData([]);
@@ -109,8 +94,6 @@ export default function FeeDetailsPage() {
             >
               <MenuItem value={''}>-- Select Year --</MenuItem>
               <MenuItem value={'2023'}>2023</MenuItem>
-              <MenuItem value={'2022'}>2022</MenuItem>
-              <MenuItem value={'2021'}>2021</MenuItem>
             </Select>
           </FormControl>
           <FormControl style={monthStyle}>
@@ -126,16 +109,28 @@ export default function FeeDetailsPage() {
               <MenuItem value={'January'}>January</MenuItem>
               <MenuItem value={'February'}>February</MenuItem>
               <MenuItem value={'March'}>March</MenuItem>
+              <MenuItem value={'April'}>April</MenuItem>
+              <MenuItem value={'May'}>May</MenuItem>
+              <MenuItem value={'June'}>June</MenuItem>
+              <MenuItem value={'July'}>July</MenuItem>
+              <MenuItem value={'August'}>August</MenuItem>
+              <MenuItem value={'September'}>September</MenuItem>
+              <MenuItem value={'October'}>October</MenuItem>
+              <MenuItem value={'November'}>November</MenuItem>
+              <MenuItem value={'December'}>December</MenuItem>
             </Select>
           </FormControl>
           <Card style={{ padding: '20px', marginTop: '30px' }}>
-            <table>
+            <table className="table table-striped">
               <thead>
                 <tr>
-                  <th>Fee ID</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Contact</th>
                   <th>Month</th>
                   <th>Year</th>
-                  <th>File Name</th>
+                  <th>Total</th>
                 </tr>
               </thead>
               <tbody>
@@ -143,10 +138,13 @@ export default function FeeDetailsPage() {
                   <>
                     {feeData.map((fee) => (
                       <tr key={fee.fee_ID}>
-                        <td>{fee.fee_ID}</td>
+                        <td>{fee.studentDetails.firstName}</td>
+                        <td>{fee.studentDetails.lastName}</td>
+                        <td>{fee.studentDetails.email}</td>
+                        <td>{fee.studentDetails.contact}</td>
                         <td>{fee.month}</td>
                         <td>{fee.year}</td>
-                        <td>{fee.fileName}</td>
+                        <td>{fee.total}</td>
                       </tr>
                     ))}
                   </>
@@ -158,31 +156,7 @@ export default function FeeDetailsPage() {
               </tbody>
             </table>
           </Card>
-          <Card style={{ padding: '20px', marginTop: '30px' }}>
-            {excelFile === null && <>No File Selected!</>}
-            {excelFile !== null && (
-              <div className="table-responsive">
-                <table className="table table-striped">
-                  <thead>
-                    <tr>
-                      <th scope='col'>Student ID</th>
-                      <th scope='col'>First Name</th>
-                      <th scope='col'>Last Name</th>
-                      <th scope='col'>Email</th>
-                      <th scope='col'>Month</th>
-                      <th scope='col'>Year</th>
-                      <th scope='col'>Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <FeeData excelFile={excelFile} />
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </Card>
         </Card>
-
       </Container>
     </>
   );
