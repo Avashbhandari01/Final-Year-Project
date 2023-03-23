@@ -25,7 +25,7 @@ export default function ProfilePage() {
         </Typography>
         <Card>
           <section style={{ backgroundColor: "#eee" }}>
-            <MDBContainer className="py-5">
+            <MDBContainer className="py-4">
               <MDBRow>
                 <MDBCol lg="4">
                   <MDBCard className="mb-4">
@@ -33,18 +33,16 @@ export default function ProfilePage() {
                       <MDBCardImage
                         src={Image}
                         alt="avatar"
-                        className="rounded-circle"
+                        className="rounded-circle mx-auto mb-3"
                         style={{ width: "180px" }}
                         fluid
                       />
-                      <p className="text-muted mb-1">Full Stack Developer</p>
-                      <p className="text-muted mb-4">
-                        Bay Area, San Francisco, CA
-                      </p>
+                      <p className="text-muted mb-1">Full Name</p>
+                      <p className="text-muted mb-4">Email</p>
                       <div className="d-flex justify-content-center mb-2">
                         <MDBBtn>Follow</MDBBtn>
                         <MDBBtn outline className="ms-1">
-                          Message
+                          Chat
                         </MDBBtn>
                       </div>
                     </MDBCardBody>
@@ -55,7 +53,7 @@ export default function ProfilePage() {
                     <MDBCardBody>
                       <MDBRow>
                         <MDBCol sm="3">
-                          <MDBCardText>Full Name</MDBCardText>
+                          <MDBCardText>Address</MDBCardText>
                         </MDBCol>
                         <MDBCol sm="9">
                           <MDBCardText className="text-muted">
@@ -66,7 +64,7 @@ export default function ProfilePage() {
                       <hr />
                       <MDBRow>
                         <MDBCol sm="3">
-                          <MDBCardText>Email</MDBCardText>
+                          <MDBCardText>Contact</MDBCardText>
                         </MDBCol>
                         <MDBCol sm="9">
                           <MDBCardText className="text-muted">
@@ -77,7 +75,7 @@ export default function ProfilePage() {
                       <hr />
                       <MDBRow>
                         <MDBCol sm="3">
-                          <MDBCardText>Phone</MDBCardText>
+                          <MDBCardText>Date of Birth</MDBCardText>
                         </MDBCol>
                         <MDBCol sm="9">
                           <MDBCardText className="text-muted">
@@ -88,7 +86,7 @@ export default function ProfilePage() {
                       <hr />
                       <MDBRow>
                         <MDBCol sm="3">
-                          <MDBCardText>Mobile</MDBCardText>
+                          <MDBCardText>Gender</MDBCardText>
                         </MDBCol>
                         <MDBCol sm="9">
                           <MDBCardText className="text-muted">
@@ -99,18 +97,7 @@ export default function ProfilePage() {
                       <hr />
                       <MDBRow>
                         <MDBCol sm="3">
-                          <MDBCardText>Address</MDBCardText>
-                        </MDBCol>
-                        <MDBCol sm="9">
-                          <MDBCardText className="text-muted">
-                            Bay Area, San Francisco, CA
-                          </MDBCardText>
-                        </MDBCol>
-                      </MDBRow>
-                      <hr />
-                      <MDBRow>
-                        <MDBCol sm="3">
-                          <MDBCardText>Address</MDBCardText>
+                          <MDBCardText>Parent</MDBCardText>
                         </MDBCol>
                         <MDBCol sm="9">
                           <MDBCardText className="text-muted">
