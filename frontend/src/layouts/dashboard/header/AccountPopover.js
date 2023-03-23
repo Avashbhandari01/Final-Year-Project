@@ -1,26 +1,32 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 // @mui
-import { alpha } from '@mui/material/styles';
-import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
+import { alpha } from "@mui/material/styles";
+import {
+  Box,
+  Divider,
+  Typography,
+  Stack,
+  MenuItem,
+  Avatar,
+  IconButton,
+  Popover,
+} from "@mui/material";
 // mocks_
 // import account from '../../../_mock/account';
 
-import AvatarImg from './images/avatar.webp'
+import AvatarImg from "./images/avatar.webp";
 
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
-    icon: 'eva:home-fill',
+    label: "Home",
+    icon: "eva:home-fill",
   },
   {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-  },
-  {
-    label: 'Settings',
-    icon: 'eva:settings-2-fill',
+    label: "Profile",
+    icon: "eva:person-fill",
   },
 ];
 
@@ -31,11 +37,12 @@ export default function AccountPopover() {
 
   // const [mydata, setMyData] = useState({ username: 'Default Name', email: 'default@gmail.com' });
 
-  const isLoggedIn = window.localStorage.getItem("adminloggedIn")
-  const admindata = window.localStorage.getItem("token")
-  const obj = JSON.parse(admindata)
+  const isLoggedIn = window.localStorage.getItem("adminloggedIn");
+  const admindata = window.localStorage.getItem("token");
+  const obj = JSON.parse(admindata);
+
   // console.log(obj.data.username)
-  
+
   useEffect(() => {
     if (isLoggedIn) {
       // setMyData(obj);
@@ -54,8 +61,8 @@ export default function AccountPopover() {
   const handleLogout = () => {
     setOpen(null);
     window.localStorage.clear();
-    window.location.href = "/"
-  }
+    window.location.href = "/";
+  };
 
   return (
     <>
@@ -64,13 +71,13 @@ export default function AccountPopover() {
         sx={{
           p: 0,
           ...(open && {
-            '&:before': {
+            "&:before": {
               zIndex: 1,
               content: "''",
-              width: '100%',
-              height: '100%',
-              borderRadius: '50%',
-              position: 'absolute',
+              width: "100%",
+              height: "100%",
+              borderRadius: "50%",
+              position: "absolute",
               bgcolor: (theme) => alpha(theme.palette.grey[900], 0.8),
             },
           }),
@@ -83,16 +90,16 @@ export default function AccountPopover() {
         open={Boolean(open)}
         anchorEl={open}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
         PaperProps={{
           sx: {
             p: 0,
             mt: 1.5,
             ml: 0.75,
             width: 180,
-            '& .MuiMenuItem-root': {
-              typography: 'body2',
+            "& .MuiMenuItem-root": {
+              typography: "body2",
               borderRadius: 0.75,
             },
           },
@@ -100,15 +107,16 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {/* {obj.data.username} */}
-            {obj?.data?.username ? obj.data.username : `${obj.data.firstName} ${obj.data.lastName}`}
+            {obj?.data?.username
+              ? obj.data.username
+              : `${obj.data.firstName} ${obj.data.lastName}`}
           </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+          <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
             {obj.data.email}
           </Typography>
         </Box>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        <Divider sx={{ borderStyle: "dashed" }} />
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
@@ -118,7 +126,7 @@ export default function AccountPopover() {
           ))}
         </Stack>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        <Divider sx={{ borderStyle: "dashed" }} />
 
         <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
           Logout
