@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
-// @mui
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { alpha } from "@mui/material/styles";
 import {
   Box,
@@ -12,43 +11,14 @@ import {
   IconButton,
   Popover,
 } from "@mui/material";
-// mocks_
-// import account from '../../../_mock/account';
-
 import AvatarImg from "./images/avatar.webp";
 
-// ----------------------------------------------------------------------
-
-const MENU_OPTIONS = [
-  {
-    label: "Home",
-    icon: "eva:home-fill",
-  },
-  {
-    label: "Profile",
-    icon: "eva:person-fill",
-  },
-];
-
-// ----------------------------------------------------------------------
-
 export default function AccountPopover() {
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(null);
-
-  // const [mydata, setMyData] = useState({ username: 'Default Name', email: 'default@gmail.com' });
-
-  const isLoggedIn = window.localStorage.getItem("adminloggedIn");
   const admindata = window.localStorage.getItem("token");
   const obj = JSON.parse(admindata);
-
-  // console.log(obj.data.username)
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      // setMyData(obj);
-      // console.log(obj.data.username)
-    }
-  }, []);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -61,7 +31,18 @@ export default function AccountPopover() {
   const handleLogout = () => {
     setOpen(null);
     window.localStorage.clear();
-    window.location.href = "/";
+    navigate("/");
+  };
+
+  const handleHome = () => {
+    setOpen(null);
+    navigate("/dashboard/app");
+  };
+
+  const handleProfile = () => {
+    setOpen(null);
+    console.log("Clicked!");
+    navigate("/dashboard/profile");
   };
 
   return (
@@ -119,18 +100,14 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: "dashed" }} />
 
         <Stack sx={{ p: 1 }}>
-          {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={handleClose}>
-              {option.label}
-            </MenuItem>
-          ))}
+          <MenuItem icon="eva:home-fill" onClick={handleHome}>
+            Home
+          </MenuItem>
+          <MenuItem icon="eva:person-fill" onClick={handleProfile}>
+            Profile
+          </MenuItem>
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Stack>
-
-        <Divider sx={{ borderStyle: "dashed" }} />
-
-        <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
-          Logout
-        </MenuItem>
       </Popover>
     </>
   );

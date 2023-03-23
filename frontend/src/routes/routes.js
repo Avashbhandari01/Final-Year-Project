@@ -12,12 +12,12 @@ import LandingPage from "../pages/LandingPage";
 import Login from "../pages/Login";
 import AdminLogin from "../pages/AdminLogin";
 import CalendarPage from "../pages/Calendar";
-// import RoutinePage from '../pages/RoutinePage';
 import ExcelRoutinePage from "../pages/ExcelRoutinePage";
 import NotificationPage from "../pages/NotificationPage";
 import AssignmentPage from "../pages/AssignmentPage";
 import FeeDetailsPage from "../pages/FeeDetails";
 import FeedbackPage from "../pages/Feedback";
+import ProfilePage from "../pages/ProfilePage";
 
 export default function Router() {
   const PrivateRoutes = () => {
@@ -70,6 +70,7 @@ export default function Router() {
         { path: "assignments", element: <AssignmentPage /> },
         { path: "feedetails", element: <FeeDetailsPage /> },
         { path: "feedback", element: <FeedbackPage /> },
+        { path: "/dashboard/profile", element: <ProfilePage /> },
       ],
     },
     {
