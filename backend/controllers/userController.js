@@ -1,125 +1,173 @@
-var db = require('../dbconfig/dbConfig')
+var db = require("../dbconfig/dbConfig");
 // var User = db.user
-var Student = db.student
-var Parent = db.parent
-const bcrypt = require('bcryptjs')
-const jwt = require("jsonwebtoken")
+var Student = db.student;
+var Parent = db.parent;
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { default: axios } = require("axios");
 
-const JWT_SECRET = process.env.JWT_SECRET
+const JWT_SECRET = process.env.JWT_SECRET;
 
 var registerUser = async (req, res) => {
-    const { firstName, lastName, email, password, address, contact, gender, dob,
-        parentfirstName, parentlastName, parentEmail, parentPassword, parentAddress, parentContact, parentRelation
-    } = req.body;
-    try {
-        const oldStudent = await Student.findOne({ where: { email } })
-        const oldParent = await Parent.findOne({ where: { email: parentEmail  } })
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    address,
+    contact,
+    gender,
+    dob,
+    parentfirstName,
+    parentlastName,
+    parentEmail,
+    parentPassword,
+    parentAddress,
+    parentContact,
+    parentRelation,
+  } = req.body;
+  try {
+    const oldStudent = await Student.findOne({ where: { email } });
+    const oldParent = await Parent.findOne({ where: { email: parentEmail } });
 
-        if (oldStudent) {
-            return res.send({ error: "Student already exists" })
-        }
-
-        if (oldParent) {
-            return res.send({ error: "Parent already exists" })
-        }
-
-        const encryptedStudentPassword = await bcrypt.hash(password, 10)
-        const encryptedParentPassword = await bcrypt.hash(parentPassword, 10)
-
-        var parentData = await Parent.create({
-            firstName: parentfirstName,
-            lastName: parentlastName,
-            email: parentEmail,
-            password: encryptedParentPassword,
-            address: parentAddress,
-            contact: parentContact,
-            relation: parentRelation
-        });
-
-        if (parentData && parentData.parent_ID) {
-            await Student.create({
-                firstName,
-                lastName,
-                email,
-                password: encryptedStudentPassword,
-                address,
-                contact,
-                gender,
-                dob,
-                parent_Id: parentData.parent_ID
-            });
-        }
-
-        res.send({ status: "ok" })
-    }
-    catch (error) {
-        res.send(error)
-    }
-}
-
-var loginUser = async (req, res) => {
-    const { email, password, role } = req.body;
-
-
-    if (!['Parent', 'Student'].includes(role)) {
-        return res.json({ error: "Invalid role!" });
+    if (oldStudent) {
+      return res.send({ error: "Student already exists" });
     }
 
-    try {
-        const P_email = email;
-        const P_password = password;
-        if (role == 'Parent') {
+    if (oldParent) {
+      return res.send({ error: "Parent already exists" });
+    }
 
-            const ParentUser = await Parent.findOne({ where: { email } })
-            if (!ParentUser) {
-                return res.json({ error: "User doesn't exist!" })
+    const encryptedStudentPassword = await bcrypt.hash(password, 10);
+    const encryptedParentPassword = await bcrypt.hash(parentPassword, 10);
+
+    var parentData = await Parent.create({
+      firstName: parentfirstName,
+      lastName: parentlastName,
+      email: parentEmail,
+      password: encryptedParentPassword,
+      address: parentAddress,
+      contact: parentContact,
+      relation: parentRelation,
+    });
+
+    if (parentData && parentData.parent_ID) {
+      await Student.create({
+        firstName,
+        lastName,
+        email,
+        password: encryptedStudentPassword,
+        address,
+        contact,
+        gender,
+        dob,
+        parent_Id: parentData.parent_ID,
+      });
+    }
+
+    res.send({ status: "ok" });
+  } catch (error) {
+    res.send(error);
+  }
+};
+
+const loginUser = async (req, res) => {
+  const { email, password, role } = req.body;
+
+  if (!["Parent", "Student"].includes(role)) {
+    return res.json({ error: "Invalid role!" });
+  }
+
+  try {
+    if (role === "Parent") {
+      const parentUser = await Parent.findOne({ where: { email } });
+      if (!parentUser) {
+        return res.json({ error: "User doesn't exist!" });
+      }
+
+      const isPasswordValid = await bcrypt.compare(
+        password,
+        parentUser.password
+      );
+      if (isPasswordValid) {
+        const token = jwt.sign(
+          { email: parentUser.email },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: 3600,
+          }
+        );
+        const username = parentUser.firstName;
+        try {
+          const response = await axios.put(
+            "https://api.chatengine.io/users/",
+            { username: username, secret: username, first_name: username },
+            {
+              headers: {
+                "private-key": "ea5d4d65-d4f4-4cff-8a89-b95beddb1923",
+              },
             }
-
-            if (await bcrypt.compare(password, ParentUser.password)) {
-                const token = jwt.sign({ email: ParentUser.email }, JWT_SECRET, {
-                    expiresIn: 3600,
-                })
-
-                if (res.status(201)) {
-                    return res.json({ status: "ok", token: token, data: ParentUser });
-                } else {
-                    return res.json({ error: "error" })
-                }
-            }
-            res.json({ status: "error", error: "Invalid Password!" })
+          );
+          return res.status(response.status).json({
+            status: "ok",
+            token: token,
+            data: parentUser,
+          });
+        } catch (error) {
+          return res.status(400).json(error);
         }
+      } else {
+        return res.json({ status: "error", error: "Invalid Password!" });
+      }
     }
-    catch (error) {
-        res.send(error);
-    }
 
-    try {
-        if (role == 'Student') {
+    if (role === "Student") {
+      const studentUser = await Student.findOne({ where: { email } });
+      if (!studentUser) {
+        return res.json({ error: "User doesn't exist!" });
+      }
 
-            const StudentUser = await Student.findOne({ where: { email } })
-
-            if (!StudentUser) {
-                return res.json({ error: "User doesn't exist!" })
+      const isPasswordValid = await bcrypt.compare(
+        password,
+        studentUser.password
+      );
+      if (isPasswordValid) {
+        const token = jwt.sign(
+          { email: studentUser.email },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: 3600,
+          }
+        );
+        const username = studentUser.firstName;
+        try {
+          const response = await axios.put(
+            "https://api.chatengine.io/users/",
+            { username: username, secret: username, first_name: username },
+            {
+              headers: {
+                "private-key": "ea5d4d65-d4f4-4cff-8a89-b95beddb1923",
+              },
             }
-
-            if (await bcrypt.compare(password, StudentUser.password)) {
-                const token = jwt.sign({ email: StudentUser.email }, JWT_SECRET, {
-                    expiresIn: 3600,
-                })
-
-                if (res.status(201)) {
-                    return res.json({ status: "ok", token: token, data: StudentUser });
-                } else {
-                    return res.json({ error: "error" })
-                }
-            }
-            res.json({ status: "error", error: "Invalid Password!" })
+          );
+          return res.status(response.status).json({
+            status: "ok",
+            token: token,
+            data: studentUser,
+          });
+        } catch (error) {
+          return res.status(400).json(error);
         }
+      } else {
+        return res.json({ status: "error", error: "Invalid Password!" });
+      }
     }
-    catch (error) {
-        res.send(error);
-    }
-}
+  } catch (error) {
+    res.send(error);
+  }
+};
+
+module.exports = loginUser;
 
 // var userData = async (req, res) => {
 //     const { token } = req.body;
@@ -158,9 +206,9 @@ var loginUser = async (req, res) => {
 
 // var userTable = async (req, res) => {
 //     try {
-        // User.findAll({}).then((data) => {
-        //     res.send({ data: data })
-        // })
+// User.findAll({}).then((data) => {
+//     res.send({ data: data })
+// })
 
 //     } catch (error) {
 //         res.send(error);
@@ -168,9 +216,9 @@ var loginUser = async (req, res) => {
 // }
 
 module.exports = {
-    registerUser,
-    loginUser,
-    // userData,
-    // userDetails,
-    // userTable
-}
+  registerUser,
+  loginUser,
+  // userData,
+  // userDetails,
+  // userTable
+};

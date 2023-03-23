@@ -1,8 +1,11 @@
-import { Helmet } from 'react-helmet-async';
-import { Container, Typography } from '@mui/material';
+import { Helmet } from "react-helmet-async";
+import { Container, Typography, Stack, Card } from "@mui/material";
+import { PrettyChatWindow } from "react-chat-engine-pretty";
 
 export default function ChatPage() {
-
+  const tokenValue = localStorage.getItem("token");
+  const tokenObject = JSON.parse(tokenValue);
+  const firstName = tokenObject.data.firstName;
   return (
     <>
       <Helmet>
@@ -10,10 +13,26 @@ export default function ChatPage() {
       </Helmet>
 
       <Container>
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Chat
-        </Typography>
-        <h1>This is a chat page.</h1>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
+        >
+          <Typography variant="h4" gutterBottom>
+            Chat
+          </Typography>
+        </Stack>
+        <Card>
+          <div style={{ height: "100vh" }}>
+            <PrettyChatWindow
+              projectId="f4209c23-197a-47bc-af87-9f85de62de2e"
+              username={firstName}
+              secret={firstName}
+              style={{ height: "100%" }}
+            />
+          </div>
+        </Card>
       </Container>
     </>
   );
