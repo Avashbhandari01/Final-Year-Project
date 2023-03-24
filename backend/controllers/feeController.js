@@ -1,5 +1,6 @@
 var db = require("../dbconfig/dbConfig");
 var Fee = db.fee;
+var Student = db.student;
 
 var insertFee = async (req, res) => {
   try {
@@ -67,8 +68,25 @@ const parentFee = async (req, res) => {
   }
 };
 
+var allFee = async (req, res) => {
+  try {
+    const data = await Fee.findAll({
+      include: [
+        {
+          model: Student,
+          attributes: ["firstName"], // include only the name attribute from the Student table
+        },
+      ],
+    });
+    res.send(data);
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 module.exports = {
   insertFee,
   getFee,
   parentFee,
+  allFee,
 };

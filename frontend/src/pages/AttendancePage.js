@@ -24,8 +24,6 @@ export default function AttendancePage() {
   const [allattendance, setAllattendance] = useState([]);
 
   const isAdmin = window.localStorage.getItem("adminloggedIn");
-  const isParent = window.localStorage.getItem("ParentloggedIn");
-  const isStudent = window.localStorage.getItem("StudentloggedIn");
 
   const yearStyle = {
     marginTop: "15px",
@@ -138,7 +136,7 @@ export default function AttendancePage() {
           console.log(error);
         });
     }
-  }, []);
+  }, [month, year]);
 
   return (
     <>
@@ -150,7 +148,7 @@ export default function AttendancePage() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           Attendance
         </Typography>
-        {(isParent || isStudent) && (
+        {!isAdmin && (
           <Card style={{ padding: "20px", marginBottom: "30px" }}>
             <FormControl style={yearStyle}>
               <InputLabel id="demo-simple-select-label">Year</InputLabel>
