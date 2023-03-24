@@ -17,7 +17,12 @@ export default function NavSection({ data = [], ...other }) {
 
   // If adminloggedIn is false, don't show the "user" NavItem
   const filteredData =
-    obj === true ? data : data.filter((item) => item.title !== "user");
+    obj === true
+      ? data
+      : data.filter(
+          (item) =>
+            item.title !== "register user" && item.title !== "user table"
+        );
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
