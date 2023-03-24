@@ -14,7 +14,6 @@ export default function FeeDetailsPage() {
   const [year, setYear] = useState(null);
   const [month, setMonth] = useState(null);
   const [feeData, setFeeData] = useState([]);
-  // const [parentFee, setParentFee] = useState([]);
 
   const yearStyle = {
     marginTop: "15px",
@@ -48,36 +47,6 @@ export default function FeeDetailsPage() {
       console.log(month);
     }
   };
-
-  // useEffect(() => {
-  //   fetch("http://localhost:5000/api/fee/get-fee", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Accept: "application/json",
-  //       "Access-Control-Allow-Origin": "*",
-  //     },
-  //     body: JSON.stringify({
-  //       student_Id: JSON.parse(window.localStorage.getItem("token")).data
-  //         .student_ID,
-  //       year: year,
-  //       month: month,
-  //     }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data.data);
-  //       if (Array.isArray(data.data)) {
-  //         setFeeData(data.data);
-  //         console.log(feeData);
-  //       } else {
-  //         setFeeData([]);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, [month, year]);
 
   useEffect(() => {
     const studentId = JSON.parse(window.localStorage.getItem("token"))?.data

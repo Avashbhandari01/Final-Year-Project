@@ -1,15 +1,13 @@
 var db = require("../dbconfig/dbConfig");
 var Fee = db.fee;
-var Student = db.student;
-var Parent = db.parent;
 
 var insertFee = async (req, res) => {
   try {
     await Fee.create({
-      month: "March",
+      month: "April",
       year: "2023",
-      total: "132000",
-      student_Id: 1,
+      total: "70000",
+      student_Id: 2,
     });
     res.send({ status: "ok" });
   } catch (error) {

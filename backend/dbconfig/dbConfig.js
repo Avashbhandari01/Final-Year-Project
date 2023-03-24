@@ -37,11 +37,9 @@ db.fee.belongsTo(db.student, {
 // One to Many relationship between student and attendance
 db.student.hasMany(db.attendance, {
   foreignKey: "student_Id",
-  as: "studentAttendanceDetails",
 });
 db.attendance.belongsTo(db.student, {
   foreignKey: "student_Id",
-  as: "studentAttendanceDetails",
 });
 
 db.sequelize.sync({ force: false });

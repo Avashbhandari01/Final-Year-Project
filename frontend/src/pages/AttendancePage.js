@@ -49,32 +49,65 @@ export default function AttendancePage() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/attendance/get-attendance", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        student_Id: JSON.parse(window.localStorage.getItem("token")).data
-          .student_ID,
-        year: year,
-        month: month,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.data);
-        if (Array.isArray(data.data)) {
-          setAttendanceData(data.data);
-        } else {
-          setAttendanceData([]);
-        }
+    const studentId = JSON.parse(window.localStorage.getItem("token"))?.data
+      ?.student_ID;
+    const parentID = JSON.parse(window.localStorage.getItem("token"))?.data
+      ?.parent_ID;
+    if (studentId) {
+      fetch("http://localhost:5000/api/attendance/get-attendance", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          student_ID: studentId,
+          year: year,
+          month: month,
+        }),
       })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data.data);
+          if (Array.isArray(data.data)) {
+            setAttendanceData(data.data);
+            console.log(attendanceData);
+          } else {
+            setAttendanceData([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (parentID) {
+      fetch("http://localhost:5000/api/attendance/parent-attendance", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          parent_ID: parentID,
+          year: year,
+          month: month,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data.data);
+          if (Array.isArray(data.data)) {
+            setAttendanceData(data.data);
+            console.log(attendanceData);
+          } else {
+            setAttendanceData([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, [month, year]);
 
   return (
@@ -146,10 +179,10 @@ export default function AttendancePage() {
                   <>
                     {attendanceData.map((attendance) => (
                       <tr key={attendance.attendance_ID}>
-                        <td>{attendance.studentAttendanceDetails.firstName}</td>
-                        <td>{attendance.studentAttendanceDetails.lastName}</td>
-                        <td>{attendance.studentAttendanceDetails.email}</td>
-                        <td>{attendance.studentAttendanceDetails.contact}</td>
+                        <td>{attendance.firstName}</td>
+                        <td>{attendance.lastName}</td>
+                        <td>{attendance.email}</td>
+                        <td>{attendance.contact}</td>
                         <td>{attendance.month}</td>
                         <td>{attendance.year}</td>
                         <td>{attendance.totalDays}</td>
