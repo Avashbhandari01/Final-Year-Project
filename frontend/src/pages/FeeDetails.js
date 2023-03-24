@@ -1,30 +1,38 @@
-import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Container, Typography, Card, Select, FormControl, MenuItem, InputLabel } from '@mui/material';
+import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import {
+  Container,
+  Typography,
+  Card,
+  Select,
+  FormControl,
+  MenuItem,
+  InputLabel,
+} from "@mui/material";
 
 export default function FeeDetailsPage() {
-
   const [year, setYear] = useState(null);
   const [month, setMonth] = useState(null);
   const [feeData, setFeeData] = useState([]);
+  // const [parentFee, setParentFee] = useState([]);
 
   const yearStyle = {
-    marginTop: '15px',
-    marginBottom: '5px',
-    marginRight: '20px',
-    width: '40%'
-  }
+    marginTop: "15px",
+    marginBottom: "5px",
+    marginRight: "20px",
+    width: "40%",
+  };
 
   const monthStyle = {
-    marginTop: '15px',
-    marginBottom: '5px',
-    width: '40%'
-  }
+    marginTop: "15px",
+    marginBottom: "5px",
+    width: "40%",
+  };
 
   const handleYearChange = (e) => {
     const value = e.target.value;
     if (value === undefined) {
-      setYear('');
+      setYear("");
     } else {
       setYear(value);
       console.log(year);
@@ -34,41 +42,103 @@ export default function FeeDetailsPage() {
   const handleMonthChange = (e) => {
     const value = e.target.value;
     if (value === undefined) {
-      setMonth('');
+      setMonth("");
     } else {
       setMonth(value);
       console.log(month);
     }
   };
 
-  useEffect(() => {
-    fetch("http://localhost:5000/api/fee/get-fee", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        student_Id: JSON.parse(window.localStorage.getItem("token")).data.student_ID,
-        year: year,
-        month: month
-      })
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.data);
-        if (Array.isArray(data.data)) {
-          setFeeData(data.data);
-          console.log(feeData)
-        } else {
-          setFeeData([]);
-        }
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/api/fee/get-fee", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Accept: "application/json",
+  //       "Access-Control-Allow-Origin": "*",
+  //     },
+  //     body: JSON.stringify({
+  //       student_Id: JSON.parse(window.localStorage.getItem("token")).data
+  //         .student_ID,
+  //       year: year,
+  //       month: month,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data.data);
+  //       if (Array.isArray(data.data)) {
+  //         setFeeData(data.data);
+  //         console.log(feeData);
+  //       } else {
+  //         setFeeData([]);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [month, year]);
 
+  useEffect(() => {
+    const studentId = JSON.parse(window.localStorage.getItem("token"))?.data
+      ?.student_ID;
+    const parentID = JSON.parse(window.localStorage.getItem("token"))?.data
+      ?.parent_ID;
+    if (studentId) {
+      fetch("http://localhost:5000/api/fee/get-fee", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          student_ID: studentId,
+          year: year,
+          month: month,
+        }),
       })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data.data);
+          if (Array.isArray(data.data)) {
+            setFeeData(data.data);
+            console.log(feeData);
+          } else {
+            setFeeData([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (parentID) {
+      fetch("http://localhost:5000/api/fee/parent-fee", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          parent_ID: parentID,
+          year: year,
+          month: month,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data.data);
+          if (Array.isArray(data.data)) {
+            setFeeData(data.data);
+            console.log(feeData);
+          } else {
+            setFeeData([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, [month, year]);
 
   return (
@@ -81,18 +151,18 @@ export default function FeeDetailsPage() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           Fee Details
         </Typography>
-        <Card style={{ padding: '20px', marginBottom: '30px' }}>
+        <Card style={{ padding: "20px", marginBottom: "30px" }}>
           <FormControl style={yearStyle}>
             <InputLabel id="demo-simple-select-label">Year</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="year"
-              value={year || ''} // check for undefined before setting value
+              value={year || ""} // check for undefined before setting value
               onChange={handleYearChange} // use handleRoleChange to set value
             >
-              <MenuItem value={''}>-- Select Year --</MenuItem>
-              <MenuItem value={'2023'}>2023</MenuItem>
+              <MenuItem value={""}>-- Select Year --</MenuItem>
+              <MenuItem value={"2023"}>2023</MenuItem>
             </Select>
           </FormControl>
           <FormControl style={monthStyle}>
@@ -101,25 +171,25 @@ export default function FeeDetailsPage() {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="month"
-              value={month || ''} // check for undefined before setting value
+              value={month || ""} // check for undefined before setting value
               onChange={handleMonthChange} // use handleRoleChange to set value
             >
-              <MenuItem value={''}>-- Select Month --</MenuItem>
-              <MenuItem value={'January'}>January</MenuItem>
-              <MenuItem value={'February'}>February</MenuItem>
-              <MenuItem value={'March'}>March</MenuItem>
-              <MenuItem value={'April'}>April</MenuItem>
-              <MenuItem value={'May'}>May</MenuItem>
-              <MenuItem value={'June'}>June</MenuItem>
-              <MenuItem value={'July'}>July</MenuItem>
-              <MenuItem value={'August'}>August</MenuItem>
-              <MenuItem value={'September'}>September</MenuItem>
-              <MenuItem value={'October'}>October</MenuItem>
-              <MenuItem value={'November'}>November</MenuItem>
-              <MenuItem value={'December'}>December</MenuItem>
+              <MenuItem value={""}>-- Select Month --</MenuItem>
+              <MenuItem value={"January"}>January</MenuItem>
+              <MenuItem value={"February"}>February</MenuItem>
+              <MenuItem value={"March"}>March</MenuItem>
+              <MenuItem value={"April"}>April</MenuItem>
+              <MenuItem value={"May"}>May</MenuItem>
+              <MenuItem value={"June"}>June</MenuItem>
+              <MenuItem value={"July"}>July</MenuItem>
+              <MenuItem value={"August"}>August</MenuItem>
+              <MenuItem value={"September"}>September</MenuItem>
+              <MenuItem value={"October"}>October</MenuItem>
+              <MenuItem value={"November"}>November</MenuItem>
+              <MenuItem value={"December"}>December</MenuItem>
             </Select>
           </FormControl>
-          <Card style={{ padding: '20px', marginTop: '30px' }}>
+          <Card style={{ padding: "20px", marginTop: "30px" }}>
             <table className="table table-striped">
               <thead>
                 <tr>
@@ -136,11 +206,11 @@ export default function FeeDetailsPage() {
                 {feeData && feeData.length ? (
                   <>
                     {feeData.map((fee) => (
-                      <tr key={fee.fee_ID}>
-                        <td>{fee.studentDetails.firstName}</td>
-                        <td>{fee.studentDetails.lastName}</td>
-                        <td>{fee.studentDetails.email}</td>
-                        <td>{fee.studentDetails.contact}</td>
+                      <tr key={fee.student_ID}>
+                        <td>{fee.firstName}</td>
+                        <td>{fee.lastName}</td>
+                        <td>{fee.email}</td>
+                        <td>{fee.contact}</td>
                         <td>{fee.month}</td>
                         <td>{fee.year}</td>
                         <td>Rs {fee.total}</td>
