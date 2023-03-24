@@ -76,7 +76,18 @@ var studentTable = async (req, res) => {
   }
 };
 
+var studentData = async (req, res) => {
+  const { student_ID } = req.body;
+  try {
+    const data = await Student.findAll({ where: { student_ID } });
+    res.send(data);
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 module.exports = {
   registerStudent,
   studentTable,
+  studentData,
 };

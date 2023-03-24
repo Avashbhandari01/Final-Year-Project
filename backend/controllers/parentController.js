@@ -38,7 +38,18 @@ var parentTable = async (req, res) => {
   }
 };
 
+var parentData = async (req, res) => {
+  const { parent_ID } = req.body;
+  try {
+    const data = await Parent.findAll({ where: { parent_ID } });
+    res.send(data);
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 module.exports = {
   registerParent,
   parentTable,
+  parentData,
 };
