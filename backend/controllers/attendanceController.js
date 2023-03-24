@@ -1,5 +1,6 @@
 var db = require("../dbconfig/dbConfig");
 var Attendance = db.attendance;
+var Student = db.student;
 
 var insertAttendance = async (req, res) => {
   try {
@@ -70,8 +71,25 @@ var parentAttendance = async (req, res) => {
   }
 };
 
+var allAttendance = async (req, res) => {
+  try {
+    const data = await Attendance.findAll({
+      include: [
+        {
+          model: Student,
+          attributes: ["firstName"], // include only the name attribute from the Student table
+        },
+      ],
+    });
+    res.send(data);
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 module.exports = {
   insertAttendance,
   getAttendance,
   parentAttendance,
+  allAttendance,
 };
