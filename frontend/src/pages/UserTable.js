@@ -1,6 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Container, Typography, Tabs, Tab, Box, Card } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Tabs,
+  Tab,
+  Box,
+  Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -36,6 +50,46 @@ export default function UserTable() {
     setValue(newValue);
   };
 
+  const [studentData, setStudentData] = useState([]);
+  const [parentData, setParentData] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/student/student-table", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setStudentData(data.data);
+        console.log(studentData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/parent/parent-table", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setParentData(data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+
   return (
     <>
       <Helmet>
@@ -59,10 +113,82 @@ export default function UserTable() {
               </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-              Student Table
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Student ID</TableCell>
+                      <TableCell align="right">First Name</TableCell>
+                      <TableCell align="right">Last Name</TableCell>
+                      <TableCell align="right">Email</TableCell>
+                      <TableCell align="right">Address</TableCell>
+                      <TableCell align="right">Contact</TableCell>
+                      <TableCell align="right">Gender</TableCell>
+                      <TableCell align="right">Date of Birth</TableCell>
+                      <TableCell align="right">Parent ID</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {studentData.map((student) => (
+                      <TableRow
+                        key={student.student_ID}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {student.student_ID}
+                        </TableCell>
+                        <TableCell align="right">{student.firstName}</TableCell>
+                        <TableCell align="right">{student.lastName}</TableCell>
+                        <TableCell align="right">{student.email}</TableCell>
+                        <TableCell align="right">{student.address}</TableCell>
+                        <TableCell align="right">{student.contact}</TableCell>
+                        <TableCell align="right">{student.gender}</TableCell>
+                        <TableCell align="right">{student.dob}</TableCell>
+                        <TableCell align="right">{student.parent_Id}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </TabPanel>
             <TabPanel value={value} index={1}>
-              Parent Table
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Parent ID</TableCell>
+                      <TableCell align="right">First Name</TableCell>
+                      <TableCell align="right">Last Name</TableCell>
+                      <TableCell align="right">Email</TableCell>
+                      <TableCell align="right">Address</TableCell>
+                      <TableCell align="right">Contact</TableCell>
+                      <TableCell align="right">Relation</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {parentData.map((parent) => (
+                      <TableRow
+                        key={parent.parent_ID}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {parent.parent_ID}
+                        </TableCell>
+                        <TableCell align="right">{parent.firstName}</TableCell>
+                        <TableCell align="right">{parent.lastName}</TableCell>
+                        <TableCell align="right">{parent.email}</TableCell>
+                        <TableCell align="right">{parent.address}</TableCell>
+                        <TableCell align="right">{parent.contact}</TableCell>
+                        <TableCell align="right">{parent.relation}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </TabPanel>
           </Box>
         </Card>
