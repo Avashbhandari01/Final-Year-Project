@@ -108,7 +108,7 @@ export default function AttendancePage() {
           console.log(error);
         });
     }
-  }, [month, year]);
+  });
 
   return (
     <>

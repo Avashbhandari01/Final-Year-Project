@@ -108,7 +108,7 @@ export default function FeeDetailsPage() {
           console.log(error);
         });
     }
-  }, [month, year]);
+  });
 
   return (
     <>

@@ -41,7 +41,6 @@ export default function AccountPopover() {
 
   const handleProfile = () => {
     setOpen(null);
-    console.log("Clicked!");
     navigate("/dashboard/profile");
   };
 
