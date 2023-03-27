@@ -24,6 +24,7 @@ export default function AttendancePage() {
   const [allattendance, setAllattendance] = useState([]);
 
   const isAdmin = window.localStorage.getItem("adminloggedIn");
+  const isTeacher = window.localStorage.getItem("TeacherloggedIn");
 
   const yearStyle = {
     marginTop: "15px",
@@ -148,7 +149,7 @@ export default function AttendancePage() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           Attendance
         </Typography>
-        {!isAdmin && (
+        {!isAdmin && !isTeacher && (
           <Card style={{ padding: "20px", marginBottom: "30px" }}>
             <FormControl style={yearStyle}>
               <InputLabel id="demo-simple-select-label">Year</InputLabel>
@@ -231,7 +232,7 @@ export default function AttendancePage() {
             </Card>
           </Card>
         )}
-        {isAdmin && (
+        {(isAdmin || isTeacher) && (
           <Card style={{ padding: "20px", marginBottom: "30px" }}>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -251,7 +252,9 @@ export default function AttendancePage() {
                   {allattendance.map((attend) => (
                     <TableRow
                       key={attend.attendance_ID}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
                     >
                       <TableCell component="th" scope="row">
                         {attend.attendance_ID}
