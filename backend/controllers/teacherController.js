@@ -28,6 +28,17 @@ var registerTeacher = async (req, res) => {
   }
 };
 
+var teacherTable = async (req, res) => {
+  try {
+    Teacher.findAll().then((data) => {
+      res.send({ data: data });
+    });
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 module.exports = {
   registerTeacher,
+  teacherTable,
 };

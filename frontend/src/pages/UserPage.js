@@ -32,6 +32,15 @@ export default function UserPage() {
   const [dob, setDateofbirth] = useState("");
   const [group, setGroup] = useState("");
 
+  // Use States for teacher form
+  const [teacherfirstName, setTeacherFirstname] = useState("");
+  const [teacherlastName, setTeacherLastname] = useState("");
+  const [teacherEmail, setTeacherEmail] = useState("");
+  const [teacherPassword, setTeacherPassword] = useState("");
+  const [teacherAddress, setTeacherAddress] = useState("");
+  const [teacherContact, setTeacherContact] = useState("");
+  const [teacherDepartment, setTeacherDepartment] = useState("");
+
   // Handle Submit
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -65,6 +74,34 @@ export default function UserPage() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data, "User Registered!");
+        // window.location.reload()
+      });
+  };
+
+  // Handle Teacher Submit
+  const handleTeacherSubmit = (e) => {
+    e.preventDefault();
+
+    fetch("http://localhost:5000/api/teacher/teacher-register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        firstName: teacherfirstName,
+        lastName: teacherlastName,
+        email: teacherEmail,
+        password: teacherPassword,
+        address: teacherAddress,
+        contact: teacherContact,
+        department: teacherDepartment,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data, "Teacher Registered!");
         // window.location.reload()
       });
   };
@@ -267,6 +304,92 @@ export default function UserPage() {
           onClick={handleSubmit}
         >
           Register User
+        </Button>
+
+        <Card style={{ padding: "20px", marginTop: "30px" }}>
+          <h3>Register Teacher Form</h3>
+          <Box
+            component="form"
+            noValidate
+            sx={{
+              "& > :not(style)": { m: 1, width: "25ch" },
+            }}
+          >
+            <TextField
+              margin="normal"
+              // required
+              fullWidth
+              id="TfirstName"
+              label="First Name"
+              name="TfirstName"
+              // autoComplete="First Name"
+              autoFocus
+              onChange={(e) => setTeacherFirstname(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              id="TlastName"
+              label="Last Name"
+              name="TlastName"
+              autoFocus
+              onChange={(e) => setTeacherLastname(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              id="Temail"
+              label="Email"
+              name="Temail"
+              autoFocus
+              onChange={(e) => setTeacherEmail(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              id="Tpassword"
+              label="Password"
+              name="Tpassword"
+              type="password"
+              autoFocus
+              onChange={(e) => setTeacherPassword(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              id="Taddress"
+              label="Address"
+              name="Taddress"
+              autoFocus
+              onChange={(e) => setTeacherAddress(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              id="Tcontact"
+              label="Contact"
+              name="Tcontact"
+              autoFocus
+              onChange={(e) => setTeacherContact(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              id="Tdepartment"
+              label="Department"
+              name="Tdepartment"
+              autoFocus
+              onChange={(e) => setTeacherDepartment(e.target.value)}
+            />
+          </Box>
+        </Card>
+        <Button
+          variant="contained"
+          startIcon={<Iconify icon="eva:plus-fill" />}
+          style={{ marginTop: "2vw" }}
+          onClick={handleTeacherSubmit}
+        >
+          Register Teacher
         </Button>
       </Container>
     </>

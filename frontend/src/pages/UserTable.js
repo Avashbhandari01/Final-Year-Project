@@ -52,6 +52,7 @@ export default function UserTable() {
 
   const [studentData, setStudentData] = useState([]);
   const [parentData, setParentData] = useState([]);
+  const [teacherData, setTeacherData] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:5000/api/student/student-table", {
@@ -90,6 +91,24 @@ export default function UserTable() {
       });
   });
 
+  useEffect(() => {
+    fetch("http://localhost:5000/api/teacher/teacher-table", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setTeacherData(data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+
   return (
     <>
       <Helmet>
@@ -110,6 +129,7 @@ export default function UserTable() {
               >
                 <Tab label="Student Table" {...a11yProps(0)} />
                 <Tab label="Parent Table" {...a11yProps(1)} />
+                <Tab label="Teacher Table" {...a11yProps(2)} />
               </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
@@ -184,6 +204,45 @@ export default function UserTable() {
                         <TableCell align="right">{parent.address}</TableCell>
                         <TableCell align="right">{parent.contact}</TableCell>
                         <TableCell align="right">{parent.relation}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Teacher ID</TableCell>
+                      <TableCell align="right">First Name</TableCell>
+                      <TableCell align="right">Last Name</TableCell>
+                      <TableCell align="right">Email</TableCell>
+                      <TableCell align="right">Address</TableCell>
+                      <TableCell align="right">Contact</TableCell>
+                      <TableCell align="right">Department</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {teacherData.map((teacher) => (
+                      <TableRow
+                        key={teacher.teacher_ID}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {teacher.teacher_ID}
+                        </TableCell>
+                        <TableCell align="right">{teacher.firstName}</TableCell>
+                        <TableCell align="right">{teacher.lastName}</TableCell>
+                        <TableCell align="right">{teacher.email}</TableCell>
+                        <TableCell align="right">{teacher.address}</TableCell>
+                        <TableCell align="right">{teacher.contact}</TableCell>
+                        <TableCell align="right">
+                          {teacher.department}
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

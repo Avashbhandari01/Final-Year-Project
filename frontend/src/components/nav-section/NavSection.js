@@ -14,25 +14,42 @@ NavSection.propTypes = {
 export default function NavSection({ data = [], ...other }) {
   const admindata = window.localStorage.getItem("adminloggedIn");
   const studentdata = window.localStorage.getItem("StudentloggedIn");
+  const parentdata = window.localStorage.getItem("ParentloggedIn");
+  const teacherdata = window.localStorage.getItem("TeacherloggedIn");
   const isAdmin = JSON.parse(admindata);
   const isStudent = JSON.parse(studentdata);
+  const isParent = JSON.parse(parentdata);
+  const isTeacher = JSON.parse(teacherdata);
 
-  // If adminloggedIn is false, don't show the "user" NavItem
-  const filteredData =
-    isAdmin === true
-      ? data
-      : isStudent === true
-      ? data.filter(
-          (item) =>
-            item.title !== "fee details" &&
-            item.title !== "user table" &&
-            item.title !== "register user" &&
-            item.title !== "notification"
-        )
-      : data.filter(
-          (item) =>
-            item.title !== "register user" && item.title !== "user table"
-        );
+  let filteredData = data;
+
+  if (isStudent) {
+    filteredData = data.filter(
+      (item) =>
+        item.title !== "fee details" &&
+        item.title !== "user table" &&
+        item.title !== "register user" &&
+        item.title !== "notification"
+    );
+  } else if (isParent) {
+    filteredData = data.filter(
+      (item) =>
+        item.title !== "user table" &&
+        item.title !== "register user" &&
+        item.title !== "notification"
+    );
+  } else if (isTeacher) {
+    filteredData = data.filter(
+      (item) =>
+        item.title !== "user table" &&
+        item.title !== "register user" &&
+        item.title !== "notification" &&
+        item.title !== "fee details"
+    );
+  } else if (isAdmin) {
+    filteredData = data;
+  }
+
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
