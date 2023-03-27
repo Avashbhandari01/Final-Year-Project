@@ -20,6 +20,7 @@ export default function AssignmentPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [deadline, setDeadline] = useState("");
+  const [group, setGroup] = useState();
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -31,6 +32,10 @@ export default function AssignmentPage() {
 
   const handleDeadlineChange = (event) => {
     setDeadline(event.target.value);
+  };
+
+  const handleGroupChange = (event) => {
+    setGroup(event.target.value);
   };
 
   const showModal = () => {
@@ -58,6 +63,7 @@ export default function AssignmentPage() {
       body: JSON.stringify({
         title,
         description,
+        group,
         deadline,
       }),
     })
@@ -68,26 +74,73 @@ export default function AssignmentPage() {
       });
   };
 
-  useEffect(() => {
-    fetch("http://localhost:5000/api/assignment/get-assignment", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setAssignments(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [assignments]);
-
   const isAdminLoggedIn = localStorage.getItem("adminloggedIn") === "true";
+
+  useEffect(() => {
+    const studentId = JSON.parse(window.localStorage.getItem("token"))?.data
+      ?.student_ID;
+    const parentId = JSON.parse(window.localStorage.getItem("token"))?.data
+      ?.parent_ID;
+    if (isAdminLoggedIn) {
+      fetch("http://localhost:5000/api/assignment/get-assignment", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setAssignments(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (studentId) {
+      fetch("http://localhost:5000/api/assignment/get-groupassignment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          group: JSON.parse(window.localStorage.getItem("token"))?.data?.group,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setAssignments(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (parentId) {
+      fetch("http://localhost:5000/api/assignment/get-parentassignment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          parent_ID: JSON.parse(window.localStorage.getItem("token"))?.data
+            ?.parent_ID,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data.data);
+          setAssignments(data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, []);
 
   return (
     <>
@@ -150,6 +203,14 @@ export default function AssignmentPage() {
 
               <TextField
                 id="outlined-basic"
+                label="Group"
+                variant="outlined"
+                onChange={handleGroupChange}
+                style={{ margin: "5px" }}
+              />
+
+              <TextField
+                id="outlined-basic"
                 label="Deadline"
                 variant="outlined"
                 onChange={handleDeadlineChange}
@@ -164,6 +225,7 @@ export default function AssignmentPage() {
               <tr>
                 <th>Assignment Title</th>
                 <th>Assignment Description</th>
+                <th>Group</th>
                 <th>Deadline</th>
                 {isAdminLoggedIn && <th>Action</th>}
               </tr>
@@ -175,6 +237,7 @@ export default function AssignmentPage() {
                     <tr key={assignment.assignment_ID}>
                       <td>{assignment.assignmentTitle}</td>
                       <td>{assignment.assignmentDescription}</td>
+                      <td>{assignment.group}</td>
                       <td>{assignment.submissionDate}</td>
                       <td>
                         {isAdminLoggedIn && (
