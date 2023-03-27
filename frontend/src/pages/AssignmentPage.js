@@ -75,13 +75,14 @@ export default function AssignmentPage() {
   };
 
   const isAdminLoggedIn = localStorage.getItem("adminloggedIn") === "true";
+  const isTeacherLoggedIn = localStorage.getItem("TeacherloggedIn") === "true";
 
   useEffect(() => {
     const studentId = JSON.parse(window.localStorage.getItem("token"))?.data
       ?.student_ID;
     const parentId = JSON.parse(window.localStorage.getItem("token"))?.data
       ?.parent_ID;
-    if (isAdminLoggedIn) {
+    if (isAdminLoggedIn || isTeacherLoggedIn) {
       fetch("http://localhost:5000/api/assignment/get-assignment", {
         method: "GET",
         headers: {
@@ -158,7 +159,7 @@ export default function AssignmentPage() {
           <Typography variant="h4" gutterBottom>
             Assignment
           </Typography>
-          {isAdminLoggedIn && (
+          {(isAdminLoggedIn || isTeacherLoggedIn) && (
             <Button
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
@@ -240,7 +241,7 @@ export default function AssignmentPage() {
                       <td>{assignment.group}</td>
                       <td>{assignment.submissionDate}</td>
                       <td>
-                        {isAdminLoggedIn && (
+                        {(isAdminLoggedIn || isTeacherLoggedIn) && (
                           <Button
                             variant="contained"
                             color="secondary"
