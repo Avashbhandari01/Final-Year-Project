@@ -26,7 +26,8 @@ export default function NavSection({ data = [], ...other }) {
           (item) =>
             item.title !== "fee details" &&
             item.title !== "user table" &&
-            item.title !== "register user"
+            item.title !== "register user" &&
+            item.title !== "notification"
         )
       : data.filter(
           (item) =>

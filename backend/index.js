@@ -24,6 +24,8 @@ app.use("/api/student", require("./routes/studentRoutes"));
 app.use("/api/fee", require("./routes/feeRoutes"));
 app.use("/api/attendance", require("./routes/attendanceRoutes"));
 app.use("/api/assignment", require("./routes/assignmentRoutes"));
+app.use("/api/routine", require("./routes/routineRoute"));
+app.use("/api/teacher", require("./routes/teacherRoutes"));
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);

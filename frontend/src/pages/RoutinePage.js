@@ -1,7 +1,7 @@
-import { Helmet } from 'react-helmet-async';
-import { Container, Typography } from '@mui/material';
-import { filter } from 'lodash';
-import { useState, useEffect } from 'react';
+import { Helmet } from "react-helmet-async";
+import { Container, Typography } from "@mui/material";
+import { filter } from "lodash";
+import { useState, useEffect } from "react";
 import {
   Card,
   Table,
@@ -11,24 +11,24 @@ import {
   TableRow,
   TableBody,
   TableCell,
-  IconButton,
+  // IconButton,
   TableContainer,
-  TablePagination
-} from '@mui/material';
-import Iconify from '../components/iconify';
-import Scrollbar from '../components/scrollbar';
-import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
+  TablePagination,
+} from "@mui/material";
+// import Iconify from "../components/iconify";
+import Scrollbar from "../components/scrollbar";
+import { UserListHead, UserListToolbar } from "../sections/@dashboard/user";
 
 const TABLE_HEAD = [
-  { id: 'Day', label: 'Day', alignRight: false },
-  { id: 'Time', label: 'Time', alignRight: false },
-  { id: 'Class_Type', label: 'Class_Type', alignRight: false },
-  { id: 'Module_Code', label: 'Module_Code', alignRight: false },
-  { id: 'Module_Title', label: 'Module_Title', alignRight: false },
-  { id: 'Lecturer', label: 'Lecturer', alignRight: false },
-  { id: 'Group', label: 'Group', alignRight: false },
-  { id: 'Block', label: 'Block', alignRight: false },
-  { id: 'Room', label: 'Room', alignRight: false },
+  { id: "Day", label: "Day", alignRight: false },
+  { id: "Time", label: "Time", alignRight: false },
+  { id: "Class_Type", label: "Class_Type", alignRight: false },
+  { id: "Module_Code", label: "Module_Code", alignRight: false },
+  { id: "Module_Title", label: "Module_Title", alignRight: false },
+  { id: "Lecturer", label: "Lecturer", alignRight: false },
+  { id: "Group", label: "Group", alignRight: false },
+  { id: "Block", label: "Block", alignRight: false },
+  { id: "Room", label: "Room", alignRight: false },
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -42,7 +42,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -55,36 +55,41 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.firstName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(
+      array,
+      (_user) =>
+        _user.firstName.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
   }
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function RoutinePage() {
+const Routine_FILE_URL = "http://localhost:3000/Routine/ExcelRoutine.xlsx";
 
+export default function RoutinePage() {
   const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
 
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState("asc");
 
   const [selected, setSelected] = useState([]);
 
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState("name");
 
-  const [filterName, setFilterName] = useState('');
+  const [filterName, setFilterName] = useState("");
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [datas, setDatas] = useState([]);
 
-  const handleOpenMenu = (event) => {
-    setOpen(event.currentTarget);
-  };
+  // const handleOpenMenu = (event) => {
+  //   setOpen(event.currentTarget);
+  // };
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -107,7 +112,10 @@ export default function RoutinePage() {
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
     }
     setSelected(newSelected);
   };
@@ -126,14 +134,19 @@ export default function RoutinePage() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - datas.length) : 0;
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - datas.length) : 0;
 
-  const filteredUsers = applySortFilter(datas, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(
+    datas,
+    getComparator(order, orderBy),
+    filterName
+  );
 
   const isNotFound = !filteredUsers.length && !!filterName;
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/routine", {
+    fetch("http://localhost:5000/api/routine/get-routine", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -151,6 +164,16 @@ export default function RoutinePage() {
       });
   }, []);
 
+  const downloadFileAtURL = (url) => {
+    const fileName = url.split("/").pop();
+    const aTag = document.createElement("a");
+    aTag.href = url;
+    aTag.setAttribute("download", fileName);
+    document.body.appendChild(aTag);
+    aTag.click();
+    aTag.remove();
+  };
+
   return (
     <>
       <Helmet>
@@ -158,12 +181,32 @@ export default function RoutinePage() {
       </Helmet>
 
       <Container>
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Routine
-        </Typography>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
+        >
+          <Typography variant="h4" gutterBottom>
+            Routine
+          </Typography>
+          <button
+            onClick={() => {
+              downloadFileAtURL(Routine_FILE_URL);
+            }}
+            className="btn btn-success"
+            style={{ marginTop: 15 + "px" }}
+          >
+            Download Routine
+          </button>
+        </Stack>
 
         <Card>
-          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+          <UserListToolbar
+            numSelected={selected.length}
+            filterName={filterName}
+            onFilterName={handleFilterByName}
+          />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -178,44 +221,67 @@ export default function RoutinePage() {
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { Day, Time, Class_Type, Module_Code, Module_Title, Lecturer, Group, Block, Room } = row;
-                    const selectedUser = selected.indexOf(Day) !== -1;
+                  {filteredUsers
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row) => {
+                      const {
+                        Day,
+                        Time,
+                        Class_Type,
+                        Module_Code,
+                        Module_Title,
+                        Lecturer,
+                        Group,
+                        Block,
+                        Room,
+                      } = row;
+                      const selectedUser = selected.indexOf(Day) !== -1;
 
-                    return (
-                      <TableRow hover key={Day} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, Day)} />
-                        </TableCell>
+                      return (
+                        <TableRow
+                          hover
+                          key={Day}
+                          tabIndex={-1}
+                          role="checkbox"
+                          selected={selectedUser}
+                        >
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              checked={selectedUser}
+                              onChange={(event) => handleClick(event, Day)}
+                            />
+                          </TableCell>
 
-                        <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}>
-                            <Typography variant="subtitle2" noWrap>
-                              {Day}
-                            </Typography>
-                          </Stack>
-                        </TableCell>
+                          <TableCell component="th" scope="row" padding="none">
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              spacing={2}
+                            >
+                              <Typography variant="subtitle2" noWrap>
+                                {Day}
+                              </Typography>
+                            </Stack>
+                          </TableCell>
 
-                        <TableCell align="left">{Time}</TableCell>
+                          <TableCell align="left">{Time}</TableCell>
 
-                        <TableCell align="left">{Class_Type}</TableCell>
+                          <TableCell align="left">{Class_Type}</TableCell>
 
-                        <TableCell align="left">{Module_Code}</TableCell>
+                          <TableCell align="left">{Module_Code}</TableCell>
 
-                        <TableCell align="left">{Module_Title}</TableCell>
+                          <TableCell align="left">{Module_Title}</TableCell>
 
-                        <TableCell align="left">{Lecturer}</TableCell>
+                          <TableCell align="left">{Lecturer}</TableCell>
 
-                        <TableCell align="left">{Group}</TableCell>
+                          <TableCell align="left">{Group}</TableCell>
 
-                        <TableCell align="left">{Block}</TableCell>
+                          <TableCell align="left">{Block}</TableCell>
 
-                        <TableCell align="left">
-                          {Room}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
+                          <TableCell align="left">{Room}</TableCell>
+                        </TableRow>
+                      );
+                    })}
 
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
@@ -230,7 +296,7 @@ export default function RoutinePage() {
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
                         <Paper
                           sx={{
-                            textAlign: 'center',
+                            textAlign: "center",
                           }}
                         >
                           <Typography variant="h6" paragraph>
@@ -240,7 +306,8 @@ export default function RoutinePage() {
                           <Typography variant="body2">
                             No results found for &nbsp;
                             <strong>&quot;{filterName}&quot;</strong>.
-                            <br /> Try checking for typos or using complete words.
+                            <br /> Try checking for typos or using complete
+                            words.
                           </Typography>
                         </Paper>
                       </TableCell>

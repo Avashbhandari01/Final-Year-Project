@@ -5,13 +5,13 @@ var Student = db.student;
 var insertAttendance = async (req, res) => {
   try {
     await Attendance.create({
-      month: "April",
+      month: "December",
       year: "2023",
       totalDays: "23",
-      daysPresent: "18",
-      daysAbsent: "5",
-      attendancePercentage: "78%",
-      student_Id: 2,
+      daysPresent: "20",
+      daysAbsent: "3",
+      attendancePercentage: "86%",
+      student_Id: 1,
     });
     res.send({ status: "ok" });
   } catch (error) {

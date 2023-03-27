@@ -12,18 +12,20 @@ import LandingPage from "../pages/LandingPage";
 import Login from "../pages/Login";
 import AdminLogin from "../pages/AdminLogin";
 import CalendarPage from "../pages/Calendar";
-import ExcelRoutinePage from "../pages/ExcelRoutinePage";
+// import ExcelRoutinePage from "../pages/ExcelRoutinePage";
 import NotificationPage from "../pages/NotificationPage";
 import AssignmentPage from "../pages/AssignmentPage";
 import FeeDetailsPage from "../pages/FeeDetails";
 import FeedbackPage from "../pages/Feedback";
 import ProfilePage from "../pages/ProfilePage";
 import UserTable from "../pages/UserTable";
+import Routine from "../pages/RoutinePage";
 
 export default function Router() {
   const PrivateRoutes = () => {
     const isStudentLoggedIn = window.localStorage.getItem("StudentloggedIn");
     const isParentLoggedIn = window.localStorage.getItem("ParentloggedIn");
+    const isTeacherLoggedIn = window.localStorage.getItem("TeacherloggedIn");
     const isAdminLoggedIn = window.localStorage.getItem("adminloggedIn");
     let auth = { token: false };
 
@@ -32,6 +34,10 @@ export default function Router() {
     }
 
     if (isParentLoggedIn) {
+      auth.token = true;
+    }
+
+    if (isTeacherLoggedIn) {
       auth.token = true;
     }
 
@@ -91,7 +97,7 @@ export default function Router() {
         { path: "chat", element: <ChatPage /> },
         { path: "attendance", element: <AttendancePage /> },
         { path: "calendar", element: <CalendarPage /> },
-        { path: "routine", element: <ExcelRoutinePage /> },
+        { path: "routine", element: <Routine /> },
         { path: "notification", element: <NotificationPage /> },
         { path: "assignments", element: <AssignmentPage /> },
         { path: "feedetails", element: <FeeDetailsPage /> },

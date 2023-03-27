@@ -2,6 +2,7 @@ var db = require("../dbconfig/dbConfig");
 // var User = db.user
 var Student = db.student;
 var Parent = db.parent;
+var Teacher = db.teacher;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { default: axios } = require("axios");
@@ -76,7 +77,7 @@ var registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { email, password, role } = req.body;
 
-  if (!["Parent", "Student"].includes(role)) {
+  if (!["Parent", "Student", "Teacher"].includes(role)) {
     return res.json({ error: "Invalid role!" });
   }
 
@@ -156,6 +157,50 @@ const loginUser = async (req, res) => {
             status: "ok",
             token: token,
             data: studentUser,
+          });
+        } catch (error) {
+          return res.status(400).json(error);
+        }
+      } else {
+        return res.json({ status: "error", error: "Invalid Password!" });
+      }
+    }
+
+    if (role === "Teacher") {
+      const teacherUser = await Teacher.findOne({ where: { email } });
+
+      if (!teacherUser) {
+        return res.json({ error: "User doesn't exist!" });
+      }
+
+      const isPasswordValid = await bcrypt.compare(
+        password,
+        teacherUser.password
+      );
+
+      if (isPasswordValid) {
+        const token = jwt.sign(
+          { email: teacherUser.email },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: 3600,
+          }
+        );
+        const username = teacherUser.firstName;
+        try {
+          const response = await axios.put(
+            "https://api.chatengine.io/users/",
+            { username: username, secret: username, first_name: username },
+            {
+              headers: {
+                "private-key": "ea5d4d65-d4f4-4cff-8a89-b95beddb1923",
+              },
+            }
+          );
+          return res.status(response.status).json({
+            status: "ok",
+            token: token,
+            data: teacherUser,
           });
         } catch (error) {
           return res.status(400).json(error);

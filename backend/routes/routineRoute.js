@@ -1,8 +1,7 @@
-const express = require('express')
-const router = express.Router()
-const { routine } = require('../controllers/routineController')
+const express = require("express");
+const router = express.Router();
+const { routine } = require("../controllers/routineController");
 
-router.get('/routine', routine)
+router.get("/get-routine", routine);
 
-module.exports = router
-
+module.exports = router;
