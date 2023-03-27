@@ -13,12 +13,21 @@ NavSection.propTypes = {
 
 export default function NavSection({ data = [], ...other }) {
   const admindata = window.localStorage.getItem("adminloggedIn");
-  const obj = JSON.parse(admindata);
+  const studentdata = window.localStorage.getItem("StudentloggedIn");
+  const isAdmin = JSON.parse(admindata);
+  const isStudent = JSON.parse(studentdata);
 
   // If adminloggedIn is false, don't show the "user" NavItem
   const filteredData =
-    obj === true
+    isAdmin === true
       ? data
+      : isStudent === true
+      ? data.filter(
+          (item) =>
+            item.title !== "fee details" &&
+            item.title !== "user table" &&
+            item.title !== "register user"
+        )
       : data.filter(
           (item) =>
             item.title !== "register user" && item.title !== "user table"
