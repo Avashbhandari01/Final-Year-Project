@@ -1,29 +1,36 @@
-import { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Button, Container, Stack, Typography, Card, TextField, Box } from '@mui/material';
-import Iconify from '../components/iconify'
+import { useState } from "react";
+import { Helmet } from "react-helmet-async";
+import {
+  Button,
+  Container,
+  Stack,
+  Typography,
+  Card,
+  TextField,
+  Box,
+} from "@mui/material";
+import Iconify from "../components/iconify";
 
 export default function UserPage() {
-
   // Use States for parent form
-  const [parentfirstName, setParentFirstname] = useState("")
-  const [parentlastName, setParentLastname] = useState("")
-  const [parentEmail, setParentEmail] = useState("")
-  const [parentPassword, setParentPassword] = useState("")
-  const [parentAddress, setParentAddress] = useState("")
-  const [parentContact, setParentContact] = useState("")
-  const [parentRelation, setParentRelation] = useState("")
-
+  const [parentfirstName, setParentFirstname] = useState("");
+  const [parentlastName, setParentLastname] = useState("");
+  const [parentEmail, setParentEmail] = useState("");
+  const [parentPassword, setParentPassword] = useState("");
+  const [parentAddress, setParentAddress] = useState("");
+  const [parentContact, setParentContact] = useState("");
+  const [parentRelation, setParentRelation] = useState("");
 
   // Use States for student form
-  const [firstName, setFirstname] = useState("")
-  const [lastName, setLastname] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [address, setAddress] = useState("")
-  const [contact, setContact] = useState("")
-  const [gender, setGender] = useState("")
-  const [dob, setDateofbirth] = useState("")
+  const [firstName, setFirstname] = useState("");
+  const [lastName, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [contact, setContact] = useState("");
+  const [gender, setGender] = useState("");
+  const [dob, setDateofbirth] = useState("");
+  const [group, setGroup] = useState("");
 
   // Handle Submit
   const handleSubmit = (e) => {
@@ -52,14 +59,15 @@ export default function UserPage() {
         contact,
         gender,
         dob,
-      })
-    }).then((res) => res.json())
+        group,
+      }),
+    })
+      .then((res) => res.json())
       .then((data) => {
         console.log(data, "User Registered!");
         // window.location.reload()
-
       });
-  }
+  };
 
   return (
     <>
@@ -68,17 +76,26 @@ export default function UserPage() {
       </Helmet>
 
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
+        >
           <Typography variant="h4" gutterBottom>
             Register User
           </Typography>
         </Stack>
 
-        <Card style={{ padding: '20px', marginBottom: '30px' }}>
+        <Card style={{ padding: "20px", marginBottom: "30px" }}>
           <h3>Register Parent Form</h3>
-          <Box component="form" noValidate sx={{
-            '& > :not(style)': { m: 1, width: '25ch' },
-          }}>
+          <Box
+            component="form"
+            noValidate
+            sx={{
+              "& > :not(style)": { m: 1, width: "25ch" },
+            }}
+          >
             <TextField
               margin="normal"
               // required
@@ -148,11 +165,15 @@ export default function UserPage() {
           </Box>
         </Card>
 
-        <Card style={{ padding: '20px' }}>
+        <Card style={{ padding: "20px" }}>
           <h3>Register Student Form</h3>
-          <Box component="form" noValidate sx={{
-            '& > :not(style)': { m: 1, width: '25ch' },
-          }}>
+          <Box
+            component="form"
+            noValidate
+            sx={{
+              "& > :not(style)": { m: 1, width: "25ch" },
+            }}
+          >
             <TextField
               margin="normal"
               // required
@@ -228,9 +249,23 @@ export default function UserPage() {
               autoFocus
               onChange={(e) => setDateofbirth(e.target.value)}
             />
+            <TextField
+              margin="normal"
+              fullWidth
+              id="group"
+              label="Group"
+              name="group"
+              autoFocus
+              onChange={(e) => setGroup(e.target.value)}
+            />
           </Box>
         </Card>
-        <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} style={{ marginTop: '2vw' }} onClick={handleSubmit}>
+        <Button
+          variant="contained"
+          startIcon={<Iconify icon="eva:plus-fill" />}
+          style={{ marginTop: "2vw" }}
+          onClick={handleSubmit}
+        >
           Register User
         </Button>
       </Container>

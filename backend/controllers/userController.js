@@ -18,6 +18,7 @@ var registerUser = async (req, res) => {
     contact,
     gender,
     dob,
+    group,
     parentfirstName,
     parentlastName,
     parentEmail,
@@ -61,6 +62,7 @@ var registerUser = async (req, res) => {
         contact,
         gender,
         dob,
+        group,
         parent_Id: parentData.parent_ID,
       });
     }

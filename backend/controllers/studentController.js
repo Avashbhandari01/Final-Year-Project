@@ -13,6 +13,7 @@ var registerStudent = async (req, res) => {
     contact,
     gender,
     dob,
+    group,
     P_firstName,
     P_lastName,
     P_email,
@@ -56,6 +57,7 @@ var registerStudent = async (req, res) => {
         contact,
         gender,
         dob,
+        group,
         parent_Id: parentData.parent_ID,
       });
     }
