@@ -20,6 +20,7 @@ import Scrollbar from "../components/scrollbar";
 import { UserListHead, UserListToolbar } from "../sections/@dashboard/user";
 
 const TABLE_HEAD = [
+  { id: "Routine_ID", label: "Routine_ID", alignRight: false },
   { id: "Day", label: "Day", alignRight: false },
   { id: "Time", label: "Time", alignRight: false },
   { id: "Class_Type", label: "Class_Type", alignRight: false },
@@ -58,16 +59,14 @@ function applySortFilter(array, comparator, query) {
     return filter(
       array,
       (_user) =>
-        _user.firstName.toLowerCase().indexOf(query.toLowerCase()) !== -1
+        _user.Routine_ID.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
 }
 
-const Routine_FILE_URL = "http://localhost:3000/Routine/ExcelRoutine.xlsx";
-
 export default function RoutinePage() {
-  const [open, setOpen] = useState(null);
+  // const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
 
@@ -82,6 +81,8 @@ export default function RoutinePage() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [datas, setDatas] = useState([]);
+
+  // const isAdmin = window.localStorage.getItem("adminloggedIn");
 
   // const handleOpenMenu = (event) => {
   //   setOpen(event.currentTarget);
@@ -102,11 +103,11 @@ export default function RoutinePage() {
     setSelected([]);
   };
 
-  const handleClick = (event, firstName) => {
-    const selectedIndex = selected.indexOf(firstName);
+  const handleClick = (event, Routine_ID) => {
+    const selectedIndex = selected.indexOf(Routine_ID);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, firstName);
+      newSelected = newSelected.concat(selected, Routine_ID);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -164,16 +165,6 @@ export default function RoutinePage() {
       });
   }, []);
 
-  const downloadFileAtURL = (url) => {
-    const fileName = url.split("/").pop();
-    const aTag = document.createElement("a");
-    aTag.href = url;
-    aTag.setAttribute("download", fileName);
-    document.body.appendChild(aTag);
-    aTag.click();
-    aTag.remove();
-  };
-
   return (
     <>
       <Helmet>
@@ -190,15 +181,6 @@ export default function RoutinePage() {
           <Typography variant="h4" gutterBottom>
             Routine
           </Typography>
-          <button
-            onClick={() => {
-              downloadFileAtURL(Routine_FILE_URL);
-            }}
-            className="btn btn-success"
-            style={{ marginTop: 15 + "px" }}
-          >
-            Download Routine
-          </button>
         </Stack>
 
         <Card>
@@ -225,6 +207,7 @@ export default function RoutinePage() {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       const {
+                        Routine_ID,
                         Day,
                         Time,
                         Class_Type,
@@ -235,12 +218,12 @@ export default function RoutinePage() {
                         Block,
                         Room,
                       } = row;
-                      const selectedUser = selected.indexOf(Day) !== -1;
+                      const selectedUser = selected.indexOf(Routine_ID) !== -1;
 
                       return (
                         <TableRow
                           hover
-                          key={Day}
+                          key={Routine_ID}
                           tabIndex={-1}
                           role="checkbox"
                           selected={selectedUser}
@@ -259,10 +242,12 @@ export default function RoutinePage() {
                               spacing={2}
                             >
                               <Typography variant="subtitle2" noWrap>
-                                {Day}
+                                {Routine_ID}
                               </Typography>
                             </Stack>
                           </TableCell>
+
+                          <TableCell align="left">{Day}</TableCell>
 
                           <TableCell align="left">{Time}</TableCell>
 
