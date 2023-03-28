@@ -38,7 +38,18 @@ var teacherTable = async (req, res) => {
   }
 };
 
+var teacherData = async (req, res) => {
+  const { teacher_ID } = req.body;
+  try {
+    const data = await Teacher.findAll({ where: { teacher_ID } });
+    res.send(data);
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 module.exports = {
   registerTeacher,
   teacherTable,
+  teacherData,
 };
