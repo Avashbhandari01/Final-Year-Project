@@ -48,8 +48,17 @@ var parentData = async (req, res) => {
   }
 };
 
+var parentCount = async (req, res) => {
+  try {
+    Parent.count().then((count) => {
+      res.send(`${count}`);
+    });
+  } catch (error) {}
+};
+
 module.exports = {
   registerParent,
   parentTable,
   parentData,
+  parentCount,
 };

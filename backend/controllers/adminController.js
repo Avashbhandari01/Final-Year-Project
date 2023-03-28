@@ -37,7 +37,7 @@ var loginAdmin = async (req, res) => {
     const token = jwt.sign({ email: admin.email }, JWT_SECRET, {
       expiresIn: 3600,
     });
-    const username = admin.username;
+    const username = "admin";
     try {
       const response = await axios.put(
         "https://api.chatengine.io/users/",
@@ -96,9 +96,18 @@ var adminDetails = async (req, res) => {
   }
 };
 
+var adminCount = async (req, res) => {
+  try {
+    Admin.count().then((count) => {
+      res.send(`${count}`);
+    });
+  } catch (error) {}
+};
+
 module.exports = {
   registerAdmin,
   loginAdmin,
   adminData,
   adminDetails,
+  adminCount,
 };

@@ -6,6 +6,7 @@ export default function ChatPage() {
   const tokenValue = localStorage.getItem("token");
   const tokenObject = JSON.parse(tokenValue);
   const firstName = tokenObject.data.firstName;
+
   return (
     <>
       <Helmet>

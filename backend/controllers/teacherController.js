@@ -48,8 +48,17 @@ var teacherData = async (req, res) => {
   }
 };
 
+var teacherCount = async (req, res) => {
+  try {
+    Teacher.count().then((count) => {
+      res.send(`${count}`);
+    });
+  } catch (error) {}
+};
+
 module.exports = {
   registerTeacher,
   teacherTable,
   teacherData,
+  teacherCount,
 };

@@ -19,6 +19,8 @@ import {
 import Scrollbar from "../components/scrollbar";
 import { UserListHead, UserListToolbar } from "../sections/@dashboard/user";
 
+const Routine_FILE_URL = "http://localhost:3000/Routine/ExcelRoutine.xlsx";
+
 const TABLE_HEAD = [
   { id: "Routine_ID", label: "Routine_ID", alignRight: false },
   { id: "Day", label: "Day", alignRight: false },
@@ -66,8 +68,6 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function RoutinePage() {
-  // const [open, setOpen] = useState(null);
-
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState("asc");
@@ -81,12 +81,6 @@ export default function RoutinePage() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [datas, setDatas] = useState([]);
-
-  // const isAdmin = window.localStorage.getItem("adminloggedIn");
-
-  // const handleOpenMenu = (event) => {
-  //   setOpen(event.currentTarget);
-  // };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -165,6 +159,16 @@ export default function RoutinePage() {
       });
   }, []);
 
+  const downloadFileAtURL = (url) => {
+    const fileName = url.split("/").pop();
+    const aTag = document.createElement("a");
+    aTag.href = url;
+    aTag.setAttribute("download", fileName);
+    document.body.appendChild(aTag);
+    aTag.click();
+    aTag.remove();
+  };
+
   return (
     <>
       <Helmet>
@@ -181,6 +185,15 @@ export default function RoutinePage() {
           <Typography variant="h4" gutterBottom>
             Routine
           </Typography>
+          <button
+            onClick={() => {
+              downloadFileAtURL(Routine_FILE_URL);
+            }}
+            className="btn btn-success"
+            style={{ marginTop: 15 + "px" }}
+          >
+            Download Routine
+          </button>
         </Stack>
 
         <Card>

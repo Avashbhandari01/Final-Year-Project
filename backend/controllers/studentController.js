@@ -88,8 +88,17 @@ var studentData = async (req, res) => {
   }
 };
 
+var studentCount = async (req, res) => {
+  try {
+    Student.count().then((count) => {
+      res.send(`${count}`);
+    });
+  } catch (error) {}
+};
+
 module.exports = {
   registerStudent,
   studentTable,
   studentData,
+  studentCount,
 };
