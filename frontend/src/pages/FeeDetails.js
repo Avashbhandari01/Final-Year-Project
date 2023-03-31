@@ -82,7 +82,7 @@ export default function FeeDetailsPage() {
           console.log(data.data);
           if (Array.isArray(data.data)) {
             setFeeData(data.data);
-            console.log(feeData);
+            // console.log(feeData);
           } else {
             setFeeData([]);
           }
@@ -109,7 +109,7 @@ export default function FeeDetailsPage() {
           console.log(data.data);
           if (Array.isArray(data.data)) {
             setFeeData(data.data);
-            console.log(feeData);
+            // console.log(feeData);
           } else {
             setFeeData([]);
           }
@@ -128,9 +128,9 @@ export default function FeeDetailsPage() {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setAllfee(data);
-          console.log(allfee);
+          // console.log(allfee);
         })
         .catch((error) => {
           console.log(error);

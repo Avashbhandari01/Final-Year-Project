@@ -83,7 +83,7 @@ export default function AttendancePage() {
           console.log(data.data);
           if (Array.isArray(data.data)) {
             setAttendanceData(data.data);
-            console.log(attendanceData);
+            // console.log(attendanceData);
           } else {
             setAttendanceData([]);
           }
@@ -110,7 +110,7 @@ export default function AttendancePage() {
           console.log(data.data);
           if (Array.isArray(data.data)) {
             setAttendanceData(data.data);
-            console.log(attendanceData);
+            // console.log(attendanceData);
           } else {
             setAttendanceData([]);
           }
@@ -129,9 +129,9 @@ export default function AttendancePage() {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setAllattendance(data);
-          console.log(allattendance);
+          // console.log(allattendance);
         })
         .catch((error) => {
           console.log(error);

@@ -93,7 +93,7 @@ export default function AssignmentPage() {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setAssignments(data);
         })
         .catch((error) => {
@@ -134,7 +134,7 @@ export default function AssignmentPage() {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data.data);
+          // console.log(data.data);
           setAssignments(data.data);
         })
         .catch((error) => {

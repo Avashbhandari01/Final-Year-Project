@@ -60,8 +60,7 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) =>
-        _user.Routine_ID.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) => _user.Group.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
@@ -74,7 +73,7 @@ export default function RoutinePage() {
 
   const [selected, setSelected] = useState([]);
 
-  const [orderBy, setOrderBy] = useState("name");
+  const [orderBy, setOrderBy] = useState("Day");
 
   const [filterName, setFilterName] = useState("");
 
@@ -152,7 +151,7 @@ export default function RoutinePage() {
       .then((res) => res.json())
       .then((data) => {
         setDatas(data);
-        console.log(datas);
+        // console.log(datas);
       })
       .catch((error) => {
         console.log(error);

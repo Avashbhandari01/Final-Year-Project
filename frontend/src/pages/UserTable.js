@@ -66,7 +66,7 @@ export default function UserTable() {
       .then((res) => res.json())
       .then((data) => {
         setStudentData(data.data);
-        console.log(studentData);
+        // console.log(studentData);
       })
       .catch((error) => {
         console.log(error);
