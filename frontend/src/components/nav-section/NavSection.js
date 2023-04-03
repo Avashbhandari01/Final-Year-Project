@@ -47,7 +47,7 @@ export default function NavSection({ data = [], ...other }) {
         item.title !== "fee details"
     );
   } else if (isAdmin) {
-    filteredData = data;
+    filteredData = data.filter((item) => item.title !== "chat");
   }
 
   return (

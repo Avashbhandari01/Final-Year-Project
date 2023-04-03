@@ -8,12 +8,14 @@ import {
   Button,
 } from "@mui/material";
 import { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 
 export default function NotificationPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
 
-  const form = useRef();
+  const smsform = useRef();
+  const emailform = useRef();
 
   const sendSMS = async (e) => {
     e.preventDefault();
@@ -27,9 +29,34 @@ export default function NotificationPage() {
       });
       const result = await response.json();
       console.log(result);
-      form.current.reset();
+      smsform.current.reset();
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const sendEmail = async (e) => {
+    e.preventDefault();
+    try {
+      emailjs
+        .sendForm(
+          "service_ftzx74l",
+          "template_j8pmfzc",
+          emailform.current,
+          "nC7bCdHmcMQODqdH1"
+        )
+        .then(
+          (result) => {
+            console.log(result.text);
+            console.log("message sent");
+            emailform.current.reset();
+          },
+          (error) => {
+            console.log(error.text);
+          }
+        );
+    } catch (error) {
+      console.log(error.text);
     }
   };
 
@@ -45,7 +72,7 @@ export default function NotificationPage() {
         </Typography>
         <Card style={{ padding: "20px", marginBottom: "30px" }}>
           <h3>Send SMS</h3>
-          <form ref={form}>
+          <form ref={smsform}>
             <TextField
               margin="normal"
               fullWidth
@@ -67,7 +94,33 @@ export default function NotificationPage() {
             style={{ marginTop: "2vw" }}
             onClick={sendSMS}
           >
-            Send
+            Send SMS
+          </Button>
+        </Card>
+
+        <Card style={{ padding: "20px", marginBottom: "30px" }}>
+          <h3>Send Email</h3>
+          <form ref={emailform}>
+            <TextField
+              margin="normal"
+              fullWidth
+              label="Enter email..."
+              name="user_email"
+            />
+            <TextareaAutosize
+              name="user_message"
+              aria-label="minimum height"
+              minRows={3}
+              placeholder="Enter a message..."
+              style={{ width: "72.4vw", marginTop: "20px" }}
+            />
+          </form>
+          <Button
+            variant="contained"
+            style={{ marginTop: "2vw" }}
+            onClick={sendEmail}
+          >
+            Send Email
           </Button>
         </Card>
       </Container>

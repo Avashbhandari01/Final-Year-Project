@@ -22,7 +22,7 @@ import { UserListHead, UserListToolbar } from "../sections/@dashboard/user";
 const Routine_FILE_URL = "http://localhost:3000/Routine/ExcelRoutine.xlsx";
 
 const TABLE_HEAD = [
-  { id: "Routine_ID", label: "Routine_ID", alignRight: false },
+  // { id: "Routine_ID", label: "Routine_ID", alignRight: false },
   { id: "Day", label: "Day", alignRight: false },
   { id: "Time", label: "Time", alignRight: false },
   { id: "Class_Type", label: "Class_Type", alignRight: false },
@@ -61,7 +61,7 @@ function applySortFilter(array, comparator, query) {
     return filter(
       array,
       // (_user) => _user.Group.toLowerCase().indexOf(query.toLowerCase()) !== -1
-      (_user) => _user.Routine_ID.indexOf(query) !== -1
+      (_user) => _user.Group.indexOf(query) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
@@ -255,12 +255,10 @@ export default function RoutinePage() {
                               spacing={2}
                             >
                               <Typography variant="subtitle2" noWrap>
-                                {Routine_ID}
+                                {Day}
                               </Typography>
                             </Stack>
                           </TableCell>
-
-                          <TableCell align="left">{Day}</TableCell>
 
                           <TableCell align="left">{Time}</TableCell>
 
