@@ -1,24 +1,23 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function SignIn() {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -35,17 +34,18 @@ export default function SignIn() {
       body: JSON.stringify({
         password,
         email,
-      })
-    }).then((res) => res.json())
+      }),
+    })
+      .then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         if (data.status === "ok") {
           window.localStorage.setItem("token", JSON.stringify(data));
           window.localStorage.setItem("adminloggedIn", true);
-          window.location.href = "./dashboard/app"
+          window.location.href = "./dashboard/app";
         }
-      })
-  }
+      });
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -54,18 +54,23 @@ export default function SignIn() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: '#666666' }}>
+          <Avatar sx={{ m: 1, bgcolor: "#666666" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Login as a Admin User
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               required
@@ -109,20 +114,29 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
-        <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 8, mb: 4 }}>
-          {'Copyright © '}
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          align="center"
+          sx={{ mt: 8, mb: 4 }}
+        >
+          {"Copyright © "}
           <Link color="inherit" href="/">
             Guardian Portal System
-          </Link>{' '}
+          </Link>{" "}
           {new Date().getFullYear()}
-          {'.'}
+          {"."}
         </Typography>
-        <Button to="/" size="large" variant="contained" component={RouterLink} style={{marginLeft: '7.6vw'}}>
+        <Button
+          to="/"
+          size="large"
+          variant="contained"
+          component={RouterLink}
+          style={{ marginLeft: "7.6vw" }}
+        >
           Go to Home
         </Button>
       </Container>
     </ThemeProvider>
   );
-};
-
-
+}

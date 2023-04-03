@@ -37,25 +37,28 @@ var loginAdmin = async (req, res) => {
     const token = jwt.sign({ email: admin.email }, JWT_SECRET, {
       expiresIn: 3600,
     });
-    const username = "admin";
-    try {
-      const response = await axios.put(
-        "https://api.chatengine.io/users/",
-        { username: username, secret: username, first_name: username },
-        {
-          headers: {
-            "private-key": "ea5d4d65-d4f4-4cff-8a89-b95beddb1923",
-          },
-        }
-      );
-      return res.status(response.status).json({
-        status: "ok",
-        token: token,
-        data: admin,
-      });
-    } catch (error) {
-      return res.status(400).json(error);
-    }
+
+    return res.json({
+      status: "ok",
+      token: token,
+      data: admin,
+    });
+
+    // const username = "admin";
+    // try {
+    //   const response = await axios.put(
+    //     "https://api.chatengine.io/users/",
+    //     { username: username, secret: username, first_name: username },
+    //     {
+    //       headers: {
+    //         "private-key": "ea5d4d65-d4f4-4cff-8a89-b95beddb1923",
+    //       },
+    //     }
+    //   );
+
+    // } catch (error) {
+    //   return res.status(400).json(error);
+    // }
   } else {
     return res.json({ status: "error", error: "Invalid Password!" });
   }
