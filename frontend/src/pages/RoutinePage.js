@@ -82,6 +82,8 @@ export default function RoutinePage() {
 
   const [datas, setDatas] = useState([]);
 
+  const isAdmin = window.localStorage.getItem("adminloggedIn");
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -169,6 +171,31 @@ export default function RoutinePage() {
     aTag.remove();
   };
 
+  // Upload File and Download File
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileInput = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const handleUpload = () => {
+    // Save the uploaded file to local storage
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(selectedFile);
+    fileReader.onload = () => {
+      localStorage.setItem("uploadedFile", fileReader.result);
+    };
+  };
+
+  const handleDownload = () => {
+    // Retrieve the uploaded file from local storage and download it
+    const uploadedFile = localStorage.getItem("uploadedFile");
+    const downloadLink = document.createElement("a");
+    downloadLink.href = uploadedFile;
+    downloadLink.download = selectedFile.name;
+    downloadLink.click();
+  };
+
   return (
     <>
       <Helmet>
@@ -185,16 +212,44 @@ export default function RoutinePage() {
           <Typography variant="h4" gutterBottom>
             Routine
           </Typography>
-          <button
-            onClick={() => {
-              downloadFileAtURL(Routine_FILE_URL);
-            }}
-            className="btn btn-success"
-            style={{ marginTop: 15 + "px" }}
-          >
-            Download Routine
-          </button>
+          {!isAdmin && (
+            <button
+              onClick={() => {
+                downloadFileAtURL(Routine_FILE_URL);
+              }}
+              className="btn btn-success"
+              style={{ marginTop: 15 + "px" }}
+            >
+              Download Routine
+            </button>
+          )}
         </Stack>
+
+        <Card style={{ padding: "20px", marginBottom: "30px" }}>
+          <div>
+            <h3>Upload Routine</h3>
+            <br />
+            <input
+              type="file"
+              onChange={handleFileInput}
+              className="form-control"
+            />
+            <button
+              onClick={handleUpload}
+              className="btn btn-primary"
+              style={{ marginTop: "15px" }}
+            >
+              Upload Routine
+            </button>
+            <button
+              onClick={handleDownload}
+              className="btn btn-success"
+              style={{ marginTop: "15px", marginLeft: "15px" }}
+            >
+              Download Routine
+            </button>
+          </div>
+        </Card>
 
         <Card>
           <UserListToolbar
