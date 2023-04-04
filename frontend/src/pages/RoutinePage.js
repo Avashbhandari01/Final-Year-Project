@@ -225,31 +225,33 @@ export default function RoutinePage() {
           )}
         </Stack>
 
-        <Card style={{ padding: "20px", marginBottom: "30px" }}>
-          <div>
-            <h3>Upload Routine</h3>
-            <br />
-            <input
-              type="file"
-              onChange={handleFileInput}
-              className="form-control"
-            />
-            <button
-              onClick={handleUpload}
-              className="btn btn-primary"
-              style={{ marginTop: "15px" }}
-            >
-              Upload Routine
-            </button>
-            <button
-              onClick={handleDownload}
-              className="btn btn-success"
-              style={{ marginTop: "15px", marginLeft: "15px" }}
-            >
-              Download Routine
-            </button>
-          </div>
-        </Card>
+        {isAdmin && (
+          <Card style={{ padding: "20px", marginBottom: "30px" }}>
+            <div>
+              <h3>Upload Routine</h3>
+              <br />
+              <input
+                type="file"
+                onChange={handleFileInput}
+                className="form-control"
+              />
+              <button
+                onClick={handleUpload}
+                className="btn btn-primary"
+                style={{ marginTop: "15px" }}
+              >
+                Upload Routine
+              </button>
+              <button
+                onClick={handleDownload}
+                className="btn btn-success"
+                style={{ marginTop: "15px", marginLeft: "15px" }}
+              >
+                Download Routine
+              </button>
+            </div>
+          </Card>
+        )}
 
         <Card>
           <UserListToolbar
