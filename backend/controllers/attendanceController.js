@@ -87,9 +87,27 @@ var allAttendance = async (req, res) => {
   }
 };
 
+var getFullAttendance = async (req, res) => {
+  try {
+    const data = await db.sequelize.query(
+      `SELECT a.attendance_ID,s.firstName, s.lastName, a.month, a.year, a.daysPresent, a.attendancePercentage
+      FROM tbl_Students s
+      JOIN tbl_Attendance a ON s.student_ID = a.student_Id
+      WHERE attendancePercentage = '100%';`,
+      {
+        type: db.sequelize.QueryTypes.SELECT,
+      }
+    );
+    res.status(200).json({ data });
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 module.exports = {
   insertAttendance,
   getAttendance,
   parentAttendance,
   allAttendance,
+  getFullAttendance,
 };
