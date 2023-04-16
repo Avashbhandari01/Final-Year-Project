@@ -15,6 +15,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { AppWidgetSummary } from "../sections/@dashboard/app";
 import { useEffect, useState } from "react";
+import { Card as AntdCard } from "antd";
 
 export default function DashboardAppPage() {
   const theme = useTheme();
@@ -26,6 +27,8 @@ export default function DashboardAppPage() {
 
   const isAdmin = window.localStorage.getItem("adminloggedIn");
   const isTeacher = window.localStorage.getItem("TeacherloggedIn");
+  const isParent = window.localStorage.getItem("ParentloggedIn");
+  const isStudent = window.localStorage.getItem("StudentloggedIn");
 
   useEffect(() => {
     fetch("http://localhost:5000/api/parent/parent-count", {
@@ -127,6 +130,27 @@ export default function DashboardAppPage() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
         </Typography>
+        {(isStudent || isParent) && (
+          <AntdCard
+            title={
+              <span style={{ fontSize: "1.5em" }}>Guardian Portal System</span>
+            }
+            bordered={true}
+            style={{ width: 1000 }}
+          >
+            <p style={{ fontSize: "1.2em", textAlign: "justify" }}>
+              The Guardian Portal System is an online communication system that
+              enables parents to monitor their child's progress in school,
+              including their marks, attendance, teacher remarks, and exam
+              results. It offers several features such as a calendar displaying
+              the school's academic calendar and events, a notification system,
+              a chat function for communicating with teachers, attendance
+              tracking, assignment completion tracking, fee detail tracking, a
+              profile section for overall student details and progress, and
+              login authentication.
+            </p>
+          </AntdCard>
+        )}
         {(isAdmin || isTeacher) && (
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={3}>
