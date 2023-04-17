@@ -10,6 +10,8 @@ import {
   Box,
 } from "@mui/material";
 import Iconify from "../components/iconify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function UserPage() {
   // Use States for parent form
@@ -45,6 +47,41 @@ export default function UserPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (
+      !parentfirstName ||
+      !parentlastName ||
+      !parentEmail ||
+      !parentPassword ||
+      !parentAddress ||
+      !parentContact ||
+      !parentRelation ||
+      !firstName ||
+      !lastName ||
+      !email ||
+      !password ||
+      !address ||
+      !contact ||
+      !gender ||
+      !dob ||
+      !group
+    ) {
+      toast.error("Please fill all the text fields!");
+      return;
+    }
+
+    // regex to validate email format
+    const emailRegex = /^\S+@\S+\.\S+$/;
+
+    if (!emailRegex.test(parentEmail) || !emailRegex.test(email)) {
+      toast.error("Please enter a valid email address!");
+      return;
+    }
+
+    if (!parentContact.match(/^\d{10}$/) || !contact.match(/^\d{10}$/)) {
+      toast.error("Enter a valid contact number!");
+      return;
+    }
+
     fetch("http://localhost:5000/api/users/user-register", {
       method: "POST",
       headers: {
@@ -74,6 +111,7 @@ export default function UserPage() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data, "User Registered!");
+        toast.success("User Registered!");
         // window.location.reload()
       });
   };
@@ -81,6 +119,32 @@ export default function UserPage() {
   // Handle Teacher Submit
   const handleTeacherSubmit = (e) => {
     e.preventDefault();
+
+    // regex to validate email format
+    const emailRegex = /^\S+@\S+\.\S+$/;
+
+    if (
+      !teacherfirstName ||
+      !teacherlastName ||
+      !teacherEmail ||
+      !teacherPassword ||
+      !teacherAddress ||
+      !teacherContact ||
+      !teacherDepartment
+    ) {
+      toast.error("Please input all the textfields!");
+      return;
+    }
+
+    if (!teacherContact.match(/^\d{10}$/)) {
+      toast.error("Enter a valid contact number!");
+      return;
+    }
+
+    if (!emailRegex.test(teacherEmail)) {
+      toast.error("Please enter a valid email address!");
+      return;
+    }
 
     fetch("http://localhost:5000/api/teacher/teacher-register", {
       method: "POST",
@@ -102,6 +166,7 @@ export default function UserPage() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data, "Teacher Registered!");
+        toast.success("Teacher registered!");
         // window.location.reload()
       });
   };
@@ -391,6 +456,19 @@ export default function UserPage() {
         >
           Register Teacher
         </Button>
+        <ToastContainer
+          position="top-center"
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          limit={1}
+        />
       </Container>
     </>
   );

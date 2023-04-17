@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import Iconify from "../components/iconify/Iconify";
 import { Modal } from "antd";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 export default function AssignmentPage() {
   const form = useRef();
@@ -51,6 +53,11 @@ export default function AssignmentPage() {
 
     e.preventDefault();
 
+    if (!title || !description || !deadline || !group) {
+      alert("Please fill out all fields!");
+      return;
+    }
+
     console.log(title, description, deadline);
 
     fetch("http://localhost:5000/api/assignment/create-assignment", {
@@ -71,6 +78,7 @@ export default function AssignmentPage() {
       .then((data) => {
         console.log(data, "Assignment Created!");
         form.current.reset();
+        alert("Assignment Created!");
       });
   };
 

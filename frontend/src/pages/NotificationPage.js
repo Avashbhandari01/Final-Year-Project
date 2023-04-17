@@ -9,16 +9,33 @@ import {
 } from "@mui/material";
 import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const isValidPhoneNumber = (phoneNumber) => {
+  const phoneNumberRegex = /^\+977\d{10}$/;
+  return phoneNumberRegex.test(phoneNumber);
+};
 
 export default function NotificationPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
 
   const smsform = useRef();
   const emailform = useRef();
 
   const sendSMS = async (e) => {
     e.preventDefault();
+    if (!isValidPhoneNumber(phoneNumber)) {
+      toast.error(
+        "Invalid phone number. Also add +977 in the front of the phone number!"
+      );
+      return;
+    }
+    if (!message) {
+      toast.error("Please fill message textfield!");
+    }
     try {
       const response = await fetch("http://localhost:5000/api/sms/send-sms", {
         method: "POST",
@@ -29,6 +46,7 @@ export default function NotificationPage() {
       });
       const result = await response.json();
       console.log(result);
+      toast.success("Message Sent!");
       smsform.current.reset();
     } catch (error) {
       console.error(error);
@@ -38,23 +56,29 @@ export default function NotificationPage() {
   const sendEmail = async (e) => {
     e.preventDefault();
     try {
-      emailjs
-        .sendForm(
-          "service_ftzx74l",
-          "template_j8pmfzc",
-          emailform.current,
-          "nC7bCdHmcMQODqdH1"
-        )
-        .then(
-          (result) => {
-            console.log(result.text);
-            console.log("message sent");
-            emailform.current.reset();
-          },
-          (error) => {
-            console.log(error.text);
-          }
-        );
+      const emailRegex = /\S+@\S+\.\S+/; // Regular expression to match email format
+      if (emailRegex.test(email)) {
+        emailjs
+          .sendForm(
+            "service_ftzx74l",
+            "template_j8pmfzc",
+            emailform.current,
+            "nC7bCdHmcMQODqdH1"
+          )
+          .then(
+            (result) => {
+              console.log(result.text);
+              console.log("message sent");
+              toast.success("Message Sent!");
+              emailform.current.reset();
+            },
+            (error) => {
+              console.log(error.text);
+            }
+          );
+      } else {
+        toast.error("Invalid email format!");
+      }
     } catch (error) {
       console.log(error.text);
     }
@@ -106,6 +130,7 @@ export default function NotificationPage() {
               fullWidth
               label="Enter email..."
               name="user_email"
+              onChange={(event) => setEmail(event.target.value)}
             />
             <TextareaAutosize
               name="user_message"
@@ -122,6 +147,19 @@ export default function NotificationPage() {
           >
             Send Email
           </Button>
+          <ToastContainer
+            position="bottom-center"
+            autoClose={1000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            limit={1}
+          />
         </Card>
       </Container>
     </>

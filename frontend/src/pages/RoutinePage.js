@@ -18,6 +18,8 @@ import {
 // import Iconify from "../components/iconify";
 import Scrollbar from "../components/scrollbar";
 import { UserListHead, UserListToolbar } from "../sections/@dashboard/user";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Routine_FILE_URL = "http://localhost:3000/Routine/ExcelRoutine.xlsx";
 
@@ -179,12 +181,16 @@ export default function RoutinePage() {
   };
 
   const handleUpload = () => {
-    // Save the uploaded file to local storage
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(selectedFile);
-    fileReader.onload = () => {
-      localStorage.setItem("uploadedFile", fileReader.result);
-    };
+    if (selectedFile) {
+      // Save the uploaded file to local storage
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(selectedFile);
+      fileReader.onload = () => {
+        localStorage.setItem("uploadedFile", fileReader.result);
+      };
+    } else {
+      toast.error("Please select a file to upload!");
+    }
   };
 
   const handleDownload = () => {
@@ -223,6 +229,19 @@ export default function RoutinePage() {
               Download Routine
             </button>
           )}
+          <ToastContainer
+            position="top-center"
+            autoClose={1000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            limit={1}
+          />
         </Stack>
 
         {isAdmin && (
