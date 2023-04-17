@@ -21,12 +21,38 @@ export default function FeedbackPage() {
     // Check if the textfields have values
     const formInputs = form.current.querySelectorAll("input, textarea");
     let isValid = true;
+    let errorMessageDisplayed = false;
     formInputs.forEach((input) => {
       if (input.value.trim() === "") {
-        // input.style.border = '1px solid red'; // Add a red border to the input
         isValid = false;
-      } else {
-        // input.style.border = '1px solid #ced4da'; // Reset the input border
+        if (!errorMessageDisplayed) {
+          errorMessageDisplayed = true;
+          toast.error("Please fill out all the fields!");
+        }
+      }
+      // Check email format
+      else if (input.name === "user_email") {
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (!emailRegex.test(input.value)) {
+          isValid = false;
+          toast.error("Please add valid email!");
+        }
+      }
+      // Check contact format
+      else if (input.name === "user_contact") {
+        const contactRegex = /^\d{10}$/;
+        if (!contactRegex.test(input.value)) {
+          isValid = false;
+          toast.error("Please add valid contact (10 digit number)!");
+        }
+      }
+      // Check full name format
+      else if (input.name === "user_name") {
+        const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+        if (!nameRegex.test(input.value)) {
+          isValid = false;
+          toast.error("Please add a valid full name!");
+        }
       }
     });
 
@@ -51,8 +77,6 @@ export default function FeedbackPage() {
             toast.error("Error sending email!");
           }
         );
-    } else {
-      toast.error("Please fill out all the fields!");
     }
   };
 
@@ -68,7 +92,7 @@ export default function FeedbackPage() {
         </Typography>
         <Card style={{ padding: "20px", marginTop: "30px" }}>
           <h3>Get in touch with us.</h3>
-          <form ref={form}>
+          <form ref={form} onSubmit={sendEmail}>
             <TextField
               margin="normal"
               fullWidth
@@ -94,17 +118,19 @@ export default function FeedbackPage() {
               placeholder="Enter a message..."
               style={{ width: "72.4vw", marginTop: "20px" }}
             />
+            <Button
+              variant="contained"
+              style={{ marginTop: "2vw" }}
+              // onClick={sendEmail}
+              type="submit"
+            >
+              Submit
+            </Button>
           </form>
-          <Button
-            variant="contained"
-            style={{ marginTop: "2vw" }}
-            onClick={sendEmail}
-          >
-            Submit
-          </Button>
+
           <ToastContainer
             position="bottom-center"
-            autoClose={5000}
+            autoClose={1000}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick
@@ -113,6 +139,7 @@ export default function FeedbackPage() {
             draggable
             pauseOnHover
             theme="light"
+            limit={1}
           />
         </Card>
       </Container>
