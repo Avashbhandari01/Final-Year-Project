@@ -14,6 +14,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const theme = createTheme();
 
@@ -23,6 +25,19 @@ export default function SignIn() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Check if email and password fields are not empty
+    if (email.trim() === "" || password.trim() === "") {
+      toast.error("Please enter email and password");
+      return;
+    }
+
+    // Check if email is in valid format
+    const emailPattern = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+    if (!emailPattern.test(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
 
     fetch("http://localhost:5000/api/admin/admin-login", {
       method: "POST",
@@ -43,6 +58,8 @@ export default function SignIn() {
           window.localStorage.setItem("token", JSON.stringify(data));
           window.localStorage.setItem("adminloggedIn", true);
           window.location.href = "./dashboard/app";
+        } else {
+          toast.error(data.error);
         }
       });
   };
@@ -136,6 +153,19 @@ export default function SignIn() {
         >
           Go to Home
         </Button>
+        <ToastContainer
+          position="top-center"
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          limit={1}
+        />
       </Container>
     </ThemeProvider>
   );
