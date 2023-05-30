@@ -32,6 +32,7 @@ export default function AccountPopover() {
     setOpen(null);
     window.localStorage.clear();
     navigate("/");
+    window.location.reload();
   };
 
   const handleHome = () => {

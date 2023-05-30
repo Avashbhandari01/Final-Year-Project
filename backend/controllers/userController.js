@@ -112,7 +112,7 @@ const loginUser = async (req, res) => {
             { username: username, secret: username, first_name: username },
             {
               headers: {
-                "private-key": "fdda4dd5-4007-4df1-a159-ff868585c829",
+                "private-key": "fc8f3935-7fc5-4995-b22f-74d9d8663563",
               },
             }
           );
@@ -159,7 +159,7 @@ const loginUser = async (req, res) => {
             { username: username, secret: username, first_name: username },
             {
               headers: {
-                "private-key": "fdda4dd5-4007-4df1-a159-ff868585c829",
+                "private-key": "fc8f3935-7fc5-4995-b22f-74d9d8663563",
               },
             }
           );
@@ -208,7 +208,7 @@ const loginUser = async (req, res) => {
             { username: username, secret: username, first_name: username },
             {
               headers: {
-                "private-key": "fdda4dd5-4007-4df1-a159-ff868585c829",
+                "private-key": "fc8f3935-7fc5-4995-b22f-74d9d8663563",
               },
             }
           );

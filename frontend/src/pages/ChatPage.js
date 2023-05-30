@@ -27,7 +27,7 @@ export default function ChatPage() {
         <Card>
           <div style={{ height: "100vh" }}>
             <PrettyChatWindow
-              projectId="31797da5-1054-462d-9560-4d8faadfc685"
+              projectId="3733ee2c-e5af-4f35-ae39-3d506677ad87"
               username={firstName}
               secret={firstName}
               style={{ height: "100%" }}
